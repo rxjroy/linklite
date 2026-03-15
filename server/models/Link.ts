@@ -10,6 +10,7 @@ export interface ILink extends Document {
   password?: string;
   expiresAt?: Date;
   isActive: boolean;
+  status: "active" | "disabled";
   totalClicks: number;
   createdAt: Date;
   updatedAt: Date;
@@ -53,6 +54,11 @@ const LinkSchema = new Schema<ILink>(
     isActive: {
       type: Boolean,
       default: true,
+    },
+    status: {
+      type: String,
+      enum: ["active", "disabled"],
+      default: "active",
     },
     totalClicks: {
       type: Number,

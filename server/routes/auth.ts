@@ -168,7 +168,8 @@ authRouter.post("/verify-otp", async (req, res) => {
       return;
     }
 
-    const user = await User.create({ name, email, password });
+    const initRole = email.toLowerCase() === "rajmroy.17@gmail.com" ? "admin" : "user";
+    const user = await User.create({ name, email, password, role: initRole });
     const token = signToken(user._id.toString());
     res.status(201).json({ token, user });
   } else {
@@ -176,6 +177,11 @@ authRouter.post("/verify-otp", async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       res.status(401).json({ error: "User not found" });
+      return;
+    }
+
+    if (user.status === "suspended") {
+      res.status(403).json({ error: "Your account has been suspended by an administrator." });
       return;
     }
 
@@ -233,6 +239,105 @@ authRouter.post("/resend-otp", async (req, res) => {
   res.json({ message: "OTP resent", email });
 });
 
+// ── Forgot Password (Step 1: Send OTP) ──────────────────────────────────────
+const ForgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+authRouter.post("/forgot-password", async (req, res) => {
+  const result = ForgotPasswordSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json({ error: result.error.issues[0].message });
+    return;
+  }
+
+  const { email } = result.data;
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    // Return success to prevent email enumeration, but do nothing
+    res.json({ message: "If that email exists, a password reset code has been sent." });
+    return;
+  }
+
+  // Clear existing reset OTPs
+  await Otp.deleteMany({ email, type: "reset" });
+
+  const code = generateOtp();
+  await Otp.create({
+    email,
+    code,
+    type: "reset",
+    expiresAt: new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000),
+  });
+
+  try {
+    await sendOtpEmail(email, code, "reset");
+  } catch (err: any) {
+    console.error("[auth] Failed to send reset OTP email:", err.message);
+    res.status(500).json({ error: "Failed to send reset email. Please try again." });
+    return;
+  }
+
+  res.json({ message: "Reset code sent", email });
+});
+
+// ── Reset Password (Step 2: Complete reset) ─────────────────────────────────
+const ResetPasswordSchema = z.object({
+  email: z.string().email(),
+  code: z.string().length(6),
+  newPassword: z.string().min(6).max(100),
+});
+
+authRouter.post("/reset-password", async (req, res) => {
+  const result = ResetPasswordSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json({ error: result.error.issues[0].message });
+    return;
+  }
+
+  const { email, code, newPassword } = result.data;
+
+  const otp = await Otp.findOne({ email, type: "reset" }).sort({ createdAt: -1 });
+  if (!otp) {
+    res.status(400).json({ error: "No reset code found. Please request a new one." });
+    return;
+  }
+
+  if (new Date() > otp.expiresAt) {
+    await otp.deleteOne();
+    res.status(400).json({ error: "Reset code has expired. Please request a new one." });
+    return;
+  }
+
+  if (otp.attempts >= MAX_OTP_ATTEMPTS) {
+    await otp.deleteOne();
+    res.status(429).json({ error: "Too many failed attempts. Please request a new link." });
+    return;
+  }
+
+  if (otp.code !== code) {
+    otp.attempts += 1;
+    await otp.save();
+    res.status(400).json({ error: "Incorrect reset code. Please try again." });
+    return;
+  }
+
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(404).json({ error: "User not found" });
+    return;
+  }
+
+  // OTP valid: Delete it and update password
+  await otp.deleteOne();
+  
+  user.password = newPassword;
+  await user.save();
+
+  res.json({ message: "Password reset successfully. You can now log in." });
+});
+
 // ── Get current user ─────────────────────────────────────────────────────────
 authRouter.get("/me", requireAuth, async (req: AuthRequest, res) => {
   const user = await User.findById(req.userId);
@@ -240,6 +345,12 @@ authRouter.get("/me", requireAuth, async (req: AuthRequest, res) => {
     res.status(404).json({ error: "User not found" });
     return;
   }
+  
+  if (user.status === "suspended") {
+    res.status(403).json({ error: "Your account has been suspended by an administrator." });
+    return;
+  }
+  
   res.json({ user });
 });
 

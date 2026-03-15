@@ -7,6 +7,8 @@ import type {
   OverviewStats,
   LinkAnalytics,
   DashboardStats,
+  AdminStats,
+  AdminUser,
 } from "@shared/types";
 
 const BASE = "/api";
@@ -69,6 +71,12 @@ export const api = {
 
     updateProfile: (data: { name?: string; currentPassword?: string; newPassword?: string }) =>
       request<{ user: AuthResponse["user"] }>("PATCH", "/auth/me", data),
+
+    forgotPassword: (email: string) =>
+      request<{ message: string; email: string }>("POST", "/auth/forgot-password", { email }, false),
+
+    resetPassword: (email: string, code: string, newPassword: string) =>
+      request<{ message: string }>("POST", "/auth/reset-password", { email, code, newPassword }, false),
   },
 
   // ── Links ────────────────────────────────────────────────────────────────────
@@ -102,5 +110,16 @@ export const api = {
   // ── Dashboard ────────────────────────────────────────────────────────────────
   dashboard: {
     stats: () => request<DashboardStats>("GET", "/dashboard/stats"),
+  },
+
+  // ── Admin ────────────────────────────────────────────────────────────────────
+  admin: {
+    stats: () => request<AdminStats>("GET", "/admin/stats"),
+    users: () => request<{ users: AdminUser[] }>("GET", "/admin/users"),
+    userLinks: (id: string) => request<{ links: LinkItem[] }>("GET", `/admin/users/${id}/links`),
+    updateUserStatus: (id: string, status: "active" | "suspended") => 
+      request<{ message: string; user: AdminUser }>("PATCH", `/admin/users/${id}/status`, { status }),
+    updateLinkStatus: (id: string, status: "active" | "disabled") =>
+      request<{ message: string; link: LinkItem }>("PATCH", `/admin/links/${id}/status`, { status }),
   },
 };

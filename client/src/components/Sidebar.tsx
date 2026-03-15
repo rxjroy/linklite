@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
-import { LayoutDashboard, BarChart3, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, BarChart3, LogOut, Menu, X, Shield } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 
@@ -23,7 +23,7 @@ const navItems = [
 export function Sidebar() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(true);
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -77,6 +77,26 @@ export function Sidebar() {
               </Link>
             );
           })}
+          
+          {user?.role === "admin" && (
+            <Link href="/admin">
+              <div
+                onClick={() => {
+                  if (window.innerWidth < 768) {
+                    setIsOpen(false);
+                  }
+                }}
+                className={`flex items-center gap-3 px-4 py-3 rounded-r-lg smooth-transition cursor-pointer relative mt-2 border-t border-white/10 pt-4 ${
+                  location.startsWith("/admin")
+                    ? "text-indigo-400 font-medium bg-gradient-to-r from-indigo-500/10 to-transparent border-l-4 border-indigo-500"
+                    : "text-gray-400 hover:text-white hover:bg-secondary border-l-4 border-transparent"
+                }`}
+              >
+                <Shield className={`h-5 w-5 ${location.startsWith("/admin") ? 'text-indigo-400' : 'text-gray-500'}`} />
+                <span>Admin Panel</span>
+              </div>
+            </Link>
+          )}
         </div>
 
         <div className="border-t border-border p-4">

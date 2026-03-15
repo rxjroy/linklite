@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface IOtp extends Document {
   email: string;
   code: string;
-  type: "signup" | "login";
+  type: "signup" | "login" | "reset";
   attempts: number;
   expiresAt: Date;
 }
@@ -22,7 +22,7 @@ const OtpSchema = new Schema<IOtp>(
     },
     type: {
       type: String,
-      enum: ["signup", "login"],
+      enum: ["signup", "login", "reset"],
       required: true,
     },
     attempts: {

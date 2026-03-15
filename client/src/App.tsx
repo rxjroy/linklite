@@ -14,6 +14,10 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 import PasswordUnlock from "@/pages/PasswordUnlock";
 import VerifyOtp from "@/pages/VerifyOtp";
+import ForgotPassword from "@/pages/ForgotPassword";
+
+import AdminDashboard from "@/pages/AdminDashboard";
+import AdminUserLinks from "@/pages/AdminUserLinks";
 
 /**
  * App Router Configuration
@@ -53,8 +57,8 @@ function Router() {
       </Route>
 
       <Route path="/verify-otp" component={VerifyOtp} />
+      <Route path="/forgot-password" component={ForgotPassword} />
 
-      {/* Protected routes */}
       <Route path="/dashboard">
         <ProtectedRoute>
           <Dashboard />
@@ -64,6 +68,20 @@ function Router() {
         <ProtectedRoute>
           <Analytics />
         </ProtectedRoute>
+      </Route>
+
+      {/* Admin Pages */}
+      <Route path="/admin">
+        <ProtectedRoute requireAdmin>
+          <AdminDashboard />
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/users/:id">
+        {params => (
+          <ProtectedRoute requireAdmin>
+             <AdminUserLinks userId={params.id} />
+          </ProtectedRoute>
+        )}
       </Route>
 
       <Route path="/p/:slug" component={PasswordUnlock} />

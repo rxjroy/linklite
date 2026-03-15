@@ -10,7 +10,11 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(login|signup|dashboard|analytics|verify-otp|404)",
+      "source": "/(login|signup|dashboard|analytics|verify-otp|forgot-password|admin|404)",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/(.*)",
       "destination": "/index.html"
     },
     {

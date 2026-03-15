@@ -24,6 +24,11 @@ redirectRouter.get("/:slug", async (req, res) => {
         return;
       }
 
+      if (data.status === "disabled") {
+        res.status(410).json({ error: "This link has been disabled by an administrator" });
+        return;
+      }
+
       if (data.hasPassword) {
         // Redirect to frontend password unlock page natively relative to the request port
         res.redirect(`/p/${slug}`);
@@ -57,6 +62,12 @@ redirectRouter.get("/:slug", async (req, res) => {
     return;
   }
 
+  // Check admin moderation status
+  if (link.status === "disabled") {
+    res.status(410).json({ error: "This link has been disabled by an administrator" });
+    return;
+  }
+
   // Check expiry
   if (link.expiresAt && new Date() > link.expiresAt) {
     res.status(410).json({ error: "This link has expired" });
@@ -69,6 +80,7 @@ redirectRouter.get("/:slug", async (req, res) => {
     originalUrl: link.originalUrl,
     hasPassword: !!link.password,
     isActive: link.isActive,
+    status: link.status,
     expiresAt: link.expiresAt?.toISOString() || null,
   });
   setCache(cacheKey, cacheValue, 3600).catch(console.error);

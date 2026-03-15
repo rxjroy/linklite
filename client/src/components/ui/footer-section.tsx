@@ -36,7 +36,6 @@ const footerLinks: FooterSection[] = [
         label: 'Social',
         links: [
             { title: 'GitHub', href: 'https://github.com/rxjroy', icon: Github, external: true },
-            { title: 'LinkedIn', href: 'https://www.linkedin.com/in/rxj-roy', icon: Linkedin, external: true },
         ],
     },
 ];

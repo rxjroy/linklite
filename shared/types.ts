@@ -3,6 +3,8 @@ export interface User {
   _id: string;
   name: string;
   email: string;
+  role: "user" | "admin";
+  status: "active" | "suspended";
   createdAt: string;
 }
 
@@ -23,6 +25,7 @@ export interface LinkItem {
   hasPassword: boolean;
   expiresAt?: string;
   isActive: boolean;
+  status: "active" | "disabled";
   totalClicks: number;
   createdAt: string;
   updatedAt: string;
@@ -114,3 +117,13 @@ export interface DashboardStats {
   recentLinks: DashboardRecentLink[];
 }
 
+// ── Admin ───────────────────────────────────────────────────────────────────
+export interface AdminStats {
+  totalUsers: number;
+  totalLinks: number;
+  totalClicks: number;
+}
+
+export interface AdminUser extends User {
+  linkCount: number;
+}

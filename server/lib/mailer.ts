@@ -24,21 +24,27 @@ export function generateOtp(): string {
 export async function sendOtpEmail(
   email: string,
   code: string,
-  type: "signup" | "login"
+  type: "signup" | "login" | "reset"
 ): Promise<void> {
   const subject =
     type === "signup"
       ? "Verify your LinkLite account"
+      : type === "reset"
+      ? "Reset your LinkLite password"
       : "LinkLite login verification";
 
   const heading =
     type === "signup"
       ? "Welcome to LinkLite!"
+      : type === "reset"
+      ? "Password Reset"
       : "Login Verification";
 
   const message =
     type === "signup"
       ? "Use the code below to verify your email and complete your registration."
+      : type === "reset"
+      ? "Use the code below to reset your password. If you didn't request this, you can safely ignore this email."
       : "Use the code below to verify your identity and log into your account.";
 
   const html = `

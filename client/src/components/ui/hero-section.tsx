@@ -95,42 +95,44 @@ export function HeroSection() {
 
               <motion.h1
                 variants={itemVariants}
-                className="mb-6 text-4xl sm:text-5xl font-bold tracking-tight md:text-7xl text-white flex flex-col items-center"
+                className="mb-8 text-4xl sm:text-5xl font-bold tracking-tight md:text-7xl text-white flex flex-col items-center w-full max-w-[100vw] overflow-hidden px-2 sm:px-4"
               >
-                <span>Shorten Links,</span>
-                <TextRevealCard
-                  text="Track Everything"
-                  revealText="Analyze Every Click"
-                  className="bg-transparent border-none p-0 inline-block w-auto mt-2"
-                  textClassName="text-5xl md:text-7xl font-bold m-0 p-0 leading-tight"
-                />
+                <span className="text-center w-full block">Shorten Links,</span>
+                <div className="w-full max-w-full flex justify-center mt-2 overflow-hidden">
+                  <TextRevealCard
+                    text="Track Everything"
+                    revealText="Analyze Every Click"
+                    className="bg-transparent border-none p-0 inline-block w-full max-w-[100vw] sm:max-w-none m-0"
+                    textClassName="text-[2.2rem] xs:text-5xl sm:text-5xl md:text-7xl font-bold m-0 p-0 leading-tight whitespace-break-spaces text-center break-words w-full"
+                  />
+                </div>
               </motion.h1>
 
               <motion.p
                 variants={itemVariants}
-                className="mb-8 max-w-2xl text-lg text-foreground/70 mx-auto"
+                className="mb-8 max-w-[90vw] md:max-w-2xl text-lg text-foreground/70 mx-auto text-center"
               >
                 Create short, shareable links in seconds. Get detailed analytics about every click,
                 every visitor, and every interaction. All in one beautiful dashboard.
               </motion.p>
 
-              <motion.div variants={itemVariants} className="flex justify-center w-full max-w-2xl mx-auto px-4 sm:px-0">
-                <div className="flex w-full items-center gap-0 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1 sm:p-1.5 shadow-[0_0_30px_rgba(79,70,229,0.08)]">
+              <motion.div variants={itemVariants} className="flex justify-center w-full max-w-[95vw] sm:max-w-2xl mx-auto px-2 sm:px-0 mt-4 overflow-hidden">
+                <div className="flex w-full items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1.5 shadow-[0_0_30px_rgba(79,70,229,0.08)] max-w-full">
                   <input
                     type="url"
-                    placeholder="Paste your long URL here..."
+                    placeholder="paste long URL..."
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleShortenClick()}
-                    className="flex-1 bg-transparent px-3 sm:px-5 py-2.5 sm:py-3 text-white placeholder:text-white/40 focus:outline-none text-sm sm:text-base min-w-0"
+                    className="flex-1 bg-transparent px-3 sm:px-5 py-2 sm:py-3 text-white placeholder:text-white/40 focus:outline-none text-sm w-full min-w-0"
                   />
                   <HoverButton
-                    className="shrink-0 gap-1.5 sm:gap-2 bg-indigo-600 hover:bg-indigo-700 px-4 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold rounded-full"
+                    className="shrink-0 flex items-center justify-center gap-1 sm:gap-2 bg-indigo-600 hover:bg-indigo-700 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-semibold rounded-full whitespace-nowrap min-w-fit"
                     onClick={handleShortenClick}
                   >
                     <span className="hidden sm:inline">Shorten URL</span>
                     <span className="sm:hidden">Shorten</span>
-                    <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                    <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 ml-1" />
                   </HoverButton>
                 </div>
               </motion.div>
@@ -149,7 +151,7 @@ export function HeroSection() {
             </div>
 
             {/* Stat Cards Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3 mb-4 min-w-[300px]">
               {[
                 { icon: LinkIcon, title: "Total Links", value: "1,248" },
                 { icon: BarChart3, title: "Total Clicks", value: "45.2k" },
@@ -158,7 +160,7 @@ export function HeroSection() {
               ].map((stat, i) => (
                 <div
                   key={i}
-                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-400 p-3 md:p-4 border border-white/10 transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/40 cursor-default"
+                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-400 p-2 md:p-4 border border-white/10 transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/40 cursor-default"
                 >
                   <div className="absolute -top-8 -right-8 w-20 h-20 bg-white/10 rounded-full blur-2xl" />
                   <div className="relative z-10">
@@ -231,7 +233,7 @@ export function HeroSection() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
-          className="mt-40 md:mt-64 pb-24 flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-foreground/60 relative z-10"
+          className="mt-64 sm:mt-40 md:mt-64 pb-24 flex flex-col sm:flex-row items-center justify-center gap-8 text-sm text-foreground/60 relative z-10"
         >
           <motion.div variants={itemVariants} className="text-center">
             <div className="text-4xl font-bold text-white mb-2"><AnimatedNumber value={10} />k+</div>

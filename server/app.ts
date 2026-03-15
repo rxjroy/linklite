@@ -10,6 +10,7 @@ import { analyticsRouter } from "./routes/analytics.js";
 import { redirectRouter } from "./routes/redirect.js";
 import { dashboardRouter } from "./routes/dashboard.js";
 import { qrRouter } from "./routes/qr.js";
+import { adminRouter } from "./routes/admin.js";
 
 // Initialize external connections
 connectDB().catch(console.error);
@@ -48,6 +49,7 @@ app.use("/api/links", apiLimiter, linksRouter);
 app.use("/api/links", apiLimiter, qrRouter);
 app.use("/api/analytics", apiLimiter, analyticsRouter);
 app.use("/api/dashboard", apiLimiter, dashboardRouter);
+app.use("/api/admin", apiLimiter, adminRouter);
 
 app.use("/", redirectLimiter, redirectRouter);
 

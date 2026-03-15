@@ -142,6 +142,13 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   }
 
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    touch-action: pan-y;
+    -webkit-text-size-adjust: 100%;
+  }
+
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
   [type="button"]:not(:disabled),

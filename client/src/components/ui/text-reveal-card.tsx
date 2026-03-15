@@ -79,7 +79,7 @@ export const TextRevealCard = ({
         <div style={{ display: "grid" }} className="w-full">
           {/* Base Text */}
           <div style={{ gridArea: "1/1" }} className="overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,white,transparent)]">
-            <p className={cn("bg-clip-text text-transparent bg-[#323238] whitespace-nowrap", textClassName)}>
+            <p className={cn("bg-clip-text text-transparent bg-[#323238]", textClassName)}>
               {text}
             </p>
             <MemoizedStars active={isMouseOver} />
@@ -103,7 +103,7 @@ export const TextRevealCard = ({
           >
             <p
               style={{ textShadow: "4px 4px 15px rgba(0,0,0,0.5)" }}
-              className={cn("bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-300 whitespace-nowrap", textClassName)}
+              className={cn("bg-clip-text text-transparent bg-gradient-to-b from-white to-neutral-300", textClassName)}
             >
               {revealText}
             </p>
