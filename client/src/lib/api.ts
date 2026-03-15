@@ -55,6 +55,16 @@ export const api = {
     login: (email: string, password: string) =>
       request<AuthResponse>("POST", "/auth/login", { email, password }, false),
 
+    verifyOtp: (email: string, code: string, type: string, name?: string, password?: string) =>
+      request<AuthResponse>("POST", "/auth/verify-otp", {
+        email, code, type,
+        ...(name ? { name } : {}),
+        ...(password ? { password } : {}),
+      }, false),
+
+    resendOtp: (email: string, type: string) =>
+      request<{ message: string; email: string }>("POST", "/auth/resend-otp", { email, type }, false),
+
     me: () => request<{ user: AuthResponse["user"] }>("GET", "/auth/me"),
 
     updateProfile: (data: { name?: string; currentPassword?: string; newPassword?: string }) =>

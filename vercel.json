@@ -10,7 +10,7 @@
       "destination": "/api/index.ts"
     },
     {
-      "source": "/(login|signup|dashboard|analytics|404)",
+      "source": "/(login|signup|dashboard|analytics|verify-otp|404)",
       "destination": "/index.html"
     },
     {

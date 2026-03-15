@@ -13,6 +13,7 @@ import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
 import PasswordUnlock from "@/pages/PasswordUnlock";
+import VerifyOtp from "@/pages/VerifyOtp";
 
 /**
  * App Router Configuration
@@ -50,6 +51,8 @@ function Router() {
       <Route path="/signup">
         {isAuthenticated ? <Redirect to="/dashboard" /> : <Signup />}
       </Route>
+
+      <Route path="/verify-otp" component={VerifyOtp} />
 
       {/* Protected routes */}
       <Route path="/dashboard">

@@ -29,10 +29,23 @@ export default function Signup() {
 
     setIsLoading(true);
     try {
-      await signup(name, email, password);
-      const params = new URLSearchParams(window.location.search);
-      const urlParam = params.get("url");
-      setLocation(urlParam ? `/dashboard?url=${encodeURIComponent(urlParam)}` : "/dashboard");
+      // Step 1: Send signup data — backend sends OTP email
+      const res = await fetch("/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Signup failed");
+
+      // Step 2: Store pending data and redirect to OTP page
+      sessionStorage.setItem("otpPending", JSON.stringify({
+        email,
+        type: "signup",
+        name,
+        password,
+      }));
+      setLocation(`/verify-otp${window.location.search}`);
     } catch (err: any) {
       setError(err.message || "Failed to create account");
     } finally {

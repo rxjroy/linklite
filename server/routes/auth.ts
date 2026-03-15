@@ -1,11 +1,16 @@
 import { Router } from "express";
 import { z } from "zod";
 import { User } from "../models/User.js";
+import { Otp } from "../models/Otp.js";
 import { requireAuth, signToken, type AuthRequest } from "../middleware/auth.js";
+import { generateOtp, sendOtpEmail } from "../lib/mailer.js";
 
 export const authRouter = Router();
 
-// ── Signup ──────────────────────────────────────────────────────────────────
+const MAX_OTP_ATTEMPTS = 5;
+const OTP_EXPIRY_MINUTES = 5;
+
+// ── Signup (Step 1: Send OTP) ──────────────────────────────────────────────
 const SignupSchema = z.object({
   name: z.string().min(2).max(50),
   email: z.string().email(),
@@ -27,13 +32,30 @@ authRouter.post("/signup", async (req, res) => {
     return;
   }
 
-  const user = await User.create({ name, email, password });
-  const token = signToken(user._id.toString());
+  // Delete any existing OTPs for this email+type
+  await Otp.deleteMany({ email, type: "signup" });
 
-  res.status(201).json({ token, user });
+  const code = generateOtp();
+  await Otp.create({
+    email,
+    code,
+    type: "signup",
+    expiresAt: new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000),
+  });
+
+  try {
+    await sendOtpEmail(email, code, "signup");
+  } catch (err: any) {
+    console.error("[auth] Failed to send OTP email:", err.message);
+    res.status(500).json({ error: "Failed to send verification email. Please try again." });
+    return;
+  }
+
+  // Return pending state — do NOT create user yet
+  res.json({ message: "OTP sent", email });
 });
 
-// ── Login ────────────────────────────────────────────────────────────────────
+// ── Login (Step 1: Send OTP) ────────────────────────────────────────────────
 const LoginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(1),
@@ -60,8 +82,155 @@ authRouter.post("/login", async (req, res) => {
     return;
   }
 
-  const token = signToken(user._id.toString());
-  res.json({ token, user });
+  // Delete any existing OTPs for this email+type
+  await Otp.deleteMany({ email, type: "login" });
+
+  const code = generateOtp();
+  await Otp.create({
+    email,
+    code,
+    type: "login",
+    expiresAt: new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000),
+  });
+
+  try {
+    await sendOtpEmail(email, code, "login");
+  } catch (err: any) {
+    console.error("[auth] Failed to send OTP email:", err.message);
+    res.status(500).json({ error: "Failed to send verification email. Please try again." });
+    return;
+  }
+
+  // Return pending state — do NOT issue token yet
+  res.json({ message: "OTP sent", email });
+});
+
+// ── Verify OTP (Step 2: Complete auth) ──────────────────────────────────────
+const VerifyOtpSchema = z.object({
+  email: z.string().email(),
+  code: z.string().length(6),
+  type: z.enum(["signup", "login"]),
+  // Signup fields (only needed for type=signup)
+  name: z.string().min(2).max(50).optional(),
+  password: z.string().min(6).max(100).optional(),
+});
+
+authRouter.post("/verify-otp", async (req, res) => {
+  const result = VerifyOtpSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json({ error: result.error.issues[0].message });
+    return;
+  }
+
+  const { email, code, type, name, password } = result.data;
+
+  const otp = await Otp.findOne({ email, type }).sort({ createdAt: -1 });
+  if (!otp) {
+    res.status(400).json({ error: "No OTP found. Please request a new one." });
+    return;
+  }
+
+  // Check expiry
+  if (new Date() > otp.expiresAt) {
+    await otp.deleteOne();
+    res.status(400).json({ error: "OTP has expired. Please request a new one." });
+    return;
+  }
+
+  // Check attempts
+  if (otp.attempts >= MAX_OTP_ATTEMPTS) {
+    await otp.deleteOne();
+    res.status(429).json({ error: "Too many failed attempts. Please request a new OTP." });
+    return;
+  }
+
+  // Verify code
+  if (otp.code !== code) {
+    otp.attempts += 1;
+    await otp.save();
+    res.status(400).json({ error: "Incorrect OTP code. Please try again." });
+    return;
+  }
+
+  // OTP is valid — delete it
+  await otp.deleteOne();
+
+  if (type === "signup") {
+    if (!name || !password) {
+      res.status(400).json({ error: "Name and password are required for signup." });
+      return;
+    }
+
+    // Double-check email isn't taken (race condition guard)
+    const existing = await User.findOne({ email });
+    if (existing) {
+      res.status(409).json({ error: "Email already in use" });
+      return;
+    }
+
+    const user = await User.create({ name, email, password });
+    const token = signToken(user._id.toString());
+    res.status(201).json({ token, user });
+  } else {
+    // Login — find user and issue token
+    const user = await User.findOne({ email });
+    if (!user) {
+      res.status(401).json({ error: "User not found" });
+      return;
+    }
+
+    const token = signToken(user._id.toString());
+    res.json({ token, user });
+  }
+});
+
+// ── Resend OTP ──────────────────────────────────────────────────────────────
+const ResendOtpSchema = z.object({
+  email: z.string().email(),
+  type: z.enum(["signup", "login"]),
+});
+
+authRouter.post("/resend-otp", async (req, res) => {
+  const result = ResendOtpSchema.safeParse(req.body);
+  if (!result.success) {
+    res.status(400).json({ error: result.error.issues[0].message });
+    return;
+  }
+
+  const { email, type } = result.data;
+
+  // Rate limit: check if there's a recent OTP (created <60s ago)
+  const recent = await Otp.findOne({
+    email,
+    type,
+    createdAt: { $gt: new Date(Date.now() - 60 * 1000) },
+  });
+
+  if (recent) {
+    res.status(429).json({ error: "Please wait before requesting a new OTP." });
+    return;
+  }
+
+  // Delete old OTPs
+  await Otp.deleteMany({ email, type });
+
+  const code = generateOtp();
+  await Otp.create({
+    email,
+    code,
+    type,
+    expiresAt: new Date(Date.now() + OTP_EXPIRY_MINUTES * 60 * 1000),
+  });
+
+  try {
+    await sendOtpEmail(email, code, type);
+  } catch (err: any) {
+    console.error("[auth] Failed to resend OTP email:", err.message);
+    res.status(500).json({ error: "Failed to send verification email." });
+    return;
+  }
+
+  res.json({ message: "OTP resent", email });
 });
 
 // ── Get current user ─────────────────────────────────────────────────────────

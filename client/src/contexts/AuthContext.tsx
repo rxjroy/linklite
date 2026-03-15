@@ -8,6 +8,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (name: string, email: string, password: string) => Promise<void>;
+  verifyOtp: (email: string, code: string, type: string, name?: string, password?: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -47,6 +48,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(user);
   }, []);
 
+  const verifyOtp = useCallback(async (
+    email: string,
+    code: string,
+    type: string,
+    name?: string,
+    password?: string
+  ) => {
+    const { token, user } = await api.auth.verifyOtp(email, code, type, name, password);
+    localStorage.setItem("token", token);
+    setUser(user);
+  }, []);
+
   const logout = useCallback(() => {
     localStorage.removeItem("token");
     setUser(null);
@@ -60,6 +73,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated: !!user,
         login,
         signup,
+        verifyOtp,
         logout,
       }}
     >

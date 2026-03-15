@@ -20,10 +20,21 @@ export default function Login() {
     setError("");
     setIsLoading(true);
     try {
-      await login(email, password);
-      const params = new URLSearchParams(window.location.search);
-      const urlParam = params.get("url");
-      setLocation(urlParam ? `/dashboard?url=${encodeURIComponent(urlParam)}` : "/dashboard");
+      // Step 1: Send credentials — backend sends OTP email
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Login failed");
+
+      // Step 2: Store pending data and redirect to OTP page
+      sessionStorage.setItem("otpPending", JSON.stringify({
+        email,
+        type: "login",
+      }));
+      setLocation(`/verify-otp${window.location.search}`);
     } catch (err: any) {
       setError(err.message || "Failed to sign in");
     } finally {

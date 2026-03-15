@@ -29,6 +29,7 @@ Short links map purely to your root domain (e.g., `linklite.com/promo`), giving 
 - **Reserved Slug Protection:** Prevents users from overriding native app routes like `/dashboard` or `/login`.
 
 ### 🛡️ Security & Access Control
+- **OTP Email Verification:** Every signup and login requires a 6-digit OTP code sent to the user's email, preventing unauthorized account creation.
 - **Password Protected Links:** Lock sensitive destinations behind a secure, hashed password screen.
 - **Link Expiration:** Automatically deactivate links after a specific date and time.
 - **Stateless Auth:** Secure JSON Web Token (JWT) based user authentication.
@@ -62,6 +63,7 @@ LinkLite is built as a highly scalable single-pane full-stack application.
 | **Backend Core** | Node.js, Express.js |
 | **Database** | MongoDB & Mongoose ORM |
 | **Caching (Optional)** | Redis (ioredis) |
+| **Email / OTP** | Nodemailer (SMTP), Gmail App Passwords |
 | **Security** | Bcryptjs (Password Hashing), Helmet, express-rate-limit |
 
 ---
@@ -95,8 +97,16 @@ Follow these steps to run LinkLite on your local machine.
    MONGODB_URI=mongodb+srv://<user>:<password>@cluster.mongodb.net/linklite
    JWT_SECRET=your-super-secret-jwt-key
    PORT=4000
-   BASE_URL=http://localhost:3001
+   BASE_URL=http://localhost:4000
+
+   # SMTP for OTP emails (Gmail App Password)
+   SMTP_HOST=smtp.gmail.com
+   SMTP_PORT=587
+   SMTP_USER=your-email@gmail.com
+   SMTP_PASS=your-gmail-app-password
    ```
+
+   > **Gmail App Password:** Go to [https://myaccount.google.com/apppasswords](https://myaccount.google.com/apppasswords), create an app password for "LinkLite", and paste the 16-character code as `SMTP_PASS`.
 
 ### Running the App (Dev Mode)
 
@@ -146,6 +156,10 @@ git push -u origin main
    - `JWT_SECRET` = `a-very-long-random-string`
    - `BASE_URL` = `https://your-production-vercel-url.vercel.app`
    - `NODE_ENV` = `production`
+   - `SMTP_HOST` = `smtp.gmail.com`
+   - `SMTP_PORT` = `587`
+   - `SMTP_USER` = `your-email@gmail.com`
+   - `SMTP_PASS` = `your-gmail-app-password`
 6. Click **Deploy**.
 
 **How Routing Works in Production:**
@@ -155,6 +169,7 @@ In production, the Node Express server takes over completely. It serves the stat
 
 ## 🔒 Security Posture
 
+- **OTP Verification:** All signups and logins require email-based OTP verification. Codes expire in 5 minutes with a max of 5 failed attempts, and resend is rate-limited to 1 per 60 seconds.
 - **Rate Limiting:** Global rate limiters protect auth routes (`/login`, `/signup`) from brute-force dictionary attacks, and limit link creation to prevent spam.
 - **Passwords:** Plain-text passwords are never stored. User accounts and locked links both utilize `bcryptjs` with salt rounds.
 - **Sanitization:** Input is strictly verified on the backend layer via `Zod` validation schemas.
