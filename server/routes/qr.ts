@@ -19,7 +19,7 @@ qrRouter.get("/:id/qr", async (req: Request, res: Response) => {
 
   const slug = link.customAlias || link.shortCode;
   const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
-  const shortUrl = `${baseUrl}/s/${slug}`;
+  const shortUrl = `${baseUrl}/${slug}`;
 
   const size = parseInt(req.query.size as string) || 300;
   const format = (req.query.format as string) || "png";
@@ -69,7 +69,7 @@ qrRouter.get("/:id/qr/dataurl", async (req: Request, res: Response) => {
 
   const slug = link.customAlias || link.shortCode;
   const baseUrl = process.env.BASE_URL || `${req.protocol}://${req.get("host")}`;
-  const shortUrl = `${baseUrl}/s/${slug}`;
+  const shortUrl = `${baseUrl}/${slug}`;
 
   try {
     const dataUrl = await QRCode.toDataURL(shortUrl, {
