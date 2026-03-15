@@ -7,7 +7,7 @@ export interface AuthRequest extends Request {
   userId?: string;
 }
 
-export function requireAuth(req: AuthRequest, res: Response, next: NextFunction): void {
+export function requireAuth(req: Request, res: Response, next: NextFunction): void {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -19,7 +19,7 @@ export function requireAuth(req: AuthRequest, res: Response, next: NextFunction)
 
   try {
     const payload = jwt.verify(token, JWT_SECRET) as { userId: string };
-    req.userId = payload.userId;
+    (req as AuthRequest).userId = payload.userId;
     next();
   } catch {
     res.status(401).json({ error: "Invalid or expired token" });

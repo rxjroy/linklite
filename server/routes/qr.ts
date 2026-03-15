@@ -1,15 +1,17 @@
-import { Router } from "express";
+import { Router, type Request } from "express";
 import QRCode from "qrcode";
 import { Link } from "../models/Link.js";
 import { requireAuth, type AuthRequest } from "../middleware/auth.js";
+import type { Response } from "express";
 
 export const qrRouter = Router();
 
 qrRouter.use(requireAuth);
 
 // ── Generate QR code for a link ─────────────────────────────────────────────
-qrRouter.get("/:id/qr", async (req: AuthRequest, res) => {
-  const link = await Link.findOne({ _id: req.params.id, userId: req.userId });
+qrRouter.get("/:id/qr", async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const link = await Link.findOne({ _id: req.params.id, userId: authReq.userId });
   if (!link) {
     res.status(404).json({ error: "Link not found" });
     return;
@@ -57,8 +59,9 @@ qrRouter.get("/:id/qr", async (req: AuthRequest, res) => {
 });
 
 // ── Get QR as data URL (for frontend embedding) ─────────────────────────────
-qrRouter.get("/:id/qr/dataurl", async (req: AuthRequest, res) => {
-  const link = await Link.findOne({ _id: req.params.id, userId: req.userId });
+qrRouter.get("/:id/qr/dataurl", async (req: Request, res: Response) => {
+  const authReq = req as AuthRequest;
+  const link = await Link.findOne({ _id: req.params.id, userId: authReq.userId });
   if (!link) {
     res.status(404).json({ error: "Link not found" });
     return;
