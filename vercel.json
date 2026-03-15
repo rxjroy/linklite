@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/dist/index.js"
+      "destination": "/api/index.js"
     },
     {
       "source": "/p/(.*)",
-      "destination": "/dist/index.js"
+      "destination": "/api/index.js"
     },
     {
       "source": "/(login|signup|dashboard|analytics|404)",
@@ -15,7 +15,7 @@
     },
     {
       "source": "/([^/.]+)",
-      "destination": "/dist/index.js"
+      "destination": "/api/index.js"
     },
     {
       "source": "/(.*)",
