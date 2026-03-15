@@ -7,7 +7,7 @@
     },
     {
       "source": "/p/(.*)",
-      "destination": "/api/index.ts"
+      "destination": "/index.html"
     },
     {
       "source": "/(login|signup|dashboard|analytics|verify-otp|404)",
