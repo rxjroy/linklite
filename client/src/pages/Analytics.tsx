@@ -58,7 +58,7 @@ export default function Analytics() {
       <Sidebar />
 
       <main className="flex-1 md:ml-0">
-        <div className="container max-w-6xl py-6 sm:py-8 px-4 md:px-8">
+        <div className="container max-w-6xl pt-16 md:pt-8 pb-6 sm:pb-8 px-4 md:px-8">
 
           {/* Header */}
           <motion.div

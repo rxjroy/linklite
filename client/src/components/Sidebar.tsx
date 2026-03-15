@@ -22,7 +22,8 @@ const navItems = [
 
 export function Sidebar() {
   const [location] = useLocation();
-  const [isOpen, setIsOpen] = useState(true);
+  // Start closed on mobile, open on desktop
+  const [isOpen, setIsOpen] = useState(window.innerWidth >= 768);
   const { user, logout } = useAuth();
 
   const handleLogout = () => {
@@ -31,10 +32,11 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile Toggle */}
+      {/* Mobile Toggle — sits in its own row above dashboard content */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-20 left-4 z-40 p-2 hover:bg-secondary rounded-lg smooth-transition"
+        className="md:hidden fixed top-4 left-4 z-40 p-2.5 bg-background/90 border border-white/10 backdrop-blur-md hover:bg-secondary rounded-xl smooth-transition shadow-lg"
+        aria-label="Toggle sidebar"
       >
         {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </button>
@@ -44,7 +46,7 @@ export function Sidebar() {
         initial={false}
         animate={{ x: isOpen ? 0 : -280 }}
         transition={{ duration: 0.3 }}
-        className="fixed md:static left-0 top-16 md:top-0 h-[calc(100vh-4rem)] md:h-screen w-64 border-r border-border bg-background flex flex-col z-30"
+        className="fixed md:static left-0 top-0 md:top-0 h-screen md:h-screen w-64 border-r border-border bg-background flex flex-col z-30"
       >
         {/* Logo */}
         <Link href="/">
@@ -113,7 +115,7 @@ export function Sidebar() {
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 top-16 bg-black/20 z-20"
+          className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-20"
           onClick={() => setIsOpen(false)}
         />
       )}
