@@ -93,8 +93,8 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen grid lg:grid-cols-2 relative overflow-hidden bg-background">
       {/* Dynamic Background Elements */}
-      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#0000FF]/20 blur-[120px] pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#0000FF]/10 blur-[150px] pointer-events-none mix-blend-screen" />
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#0000FF]/20 blur-[80px] pointer-events-none mix-blend-screen" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#0000FF]/10 blur-[100px] pointer-events-none mix-blend-screen" />
 
       {/* Left Column - Form */}
       <div className="flex items-center justify-center p-8 sm:p-12 relative z-10 w-full max-w-xl mx-auto lg:max-w-none">
@@ -202,7 +202,7 @@ export default function ForgotPassword() {
                         placeholder="000000"
                         value={otp}
                         onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                        className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 tracking-[0.5em] text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#0000FF]/50 focus:bg-white/10 transition-all backdrop-blur-sm font-mono"
+                        className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 tracking-[0.5em] text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#0000FF]/50 focus:bg-white/10 transition-all backdrop-blur-md font-mono"
                       />
                     </div>
                   </div>

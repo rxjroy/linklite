@@ -58,7 +58,7 @@ export default function PasswordUnlock() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md relative z-10"
       >
-        <div className="glass-card p-8 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl bg-background/40">
+        <div className="glass-card p-8 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-md bg-background/40">
           <div className="flex flex-col items-center text-center mb-8">
             <div className="w-16 h-16 rounded-2xl bg-[#0000FF]/20 border border-[#0000FF]/30 flex items-center justify-center mb-4">
               <Lock className="w-8 h-8 text-[#0000FF]" />

@@ -63,13 +63,14 @@ export function BeamsBackground({
         if (!ctx) return;
 
         const updateCanvasSize = () => {
-            // Cap dpr to 1.5 to avoid excessive pixel processing on 3x screens
-            const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
+            // Cap dpr and downscale for blurs to drastically improve Chrome performance
+            const dpr = Math.min(window.devicePixelRatio || 1, 1.2);
+            const downscale = 0.5; // Render at 50% resolution
+            canvas.width = window.innerWidth * dpr * downscale;
+            canvas.height = window.innerHeight * dpr * downscale;
             canvas.style.width = `${window.innerWidth}px`;
             canvas.style.height = `${window.innerHeight}px`;
-            ctx.scale(dpr, dpr);
+            ctx.scale(dpr * downscale, dpr * downscale);
 
             // Fill background initially
             ctx.fillStyle = "#0a0a0a";
@@ -77,7 +78,7 @@ export function BeamsBackground({
 
             const totalBeams = Math.floor(MINIMUM_BEAMS * 1.2);
             beamsRef.current = Array.from({ length: totalBeams }, () =>
-                createBeam(canvas.width, canvas.height)
+                createBeam(window.innerWidth, window.innerHeight) // Use window size for beam calculation
             );
         };
 
@@ -88,9 +89,9 @@ export function BeamsBackground({
             if (!canvas) return beam;
             
             const column = index % 3;
-            const spacing = canvas.width / (Math.min(window.devicePixelRatio || 1, 1.5) * 3);
+            const spacing = window.innerWidth / 3;
 
-            beam.y = canvas.height / Math.min(window.devicePixelRatio || 1, 1.5) + 100;
+            beam.y = window.innerHeight + 100;
             beam.x =
                 column * spacing +
                 spacing / 2 +
@@ -170,22 +171,20 @@ export function BeamsBackground({
         >
             <canvas
                 ref={canvasRef}
-                className="absolute inset-0"
-                style={{ filter: "blur(15px)" }}
+                className="absolute inset-0 will-change-[transform,opacity]"
+                style={{ filter: "blur(25px)" }} // Increased blur here to compensate for removed backdrop-filter
             />
 
+            {/* Removed redundant backdrop-filter layer for major performance boost in Chrome */}
             <motion.div
-                className="absolute inset-0 bg-neutral-950/5"
+                className="absolute inset-0 bg-neutral-950/20"
                 animate={{
-                    opacity: [0.05, 0.15, 0.05],
+                    opacity: [0.1, 0.2, 0.1],
                 }}
                 transition={{
                     duration: 10,
                     ease: "easeInOut",
                     repeat: Number.POSITIVE_INFINITY,
-                }}
-                style={{
-                    backdropFilter: "blur(50px)",
                 }}
             />
 

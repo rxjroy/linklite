@@ -219,11 +219,11 @@
   }
 
   .glass-card {
-    @apply bg-white/5 dark:bg-slate-900/50 backdrop-blur-xl border border-white/10 dark:border-slate-700/50 rounded-lg;
+    @apply bg-white/5 dark:bg-slate-900/50 backdrop-blur-md border border-white/10 dark:border-slate-700/50 rounded-lg;
   }
 
   .smooth-transition {
-    @apply transition-all duration-300 ease-out;
+    transition: opacity 0.3s ease-out, background-color 0.3s ease-out, border-color 0.3s ease-out, transform 0.3s ease-out, box-shadow 0.3s ease-out;
   }
 
   /* Custom Native DatePicker Styling */
