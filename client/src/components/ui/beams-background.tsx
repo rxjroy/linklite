@@ -59,7 +59,7 @@ export function BeamsBackground({
         const canvas = canvasRef.current;
         if (!canvas) return;
 
-        const ctx = canvas.getContext("2d", { alpha: false }); // Optimization: disable alpha if not needed, but we do need it for the background. Wait, bg is neutral-950.
+        const ctx = canvas.getContext("2d", { alpha: false }); 
         if (!ctx) return;
 
         const updateCanvasSize = () => {
@@ -128,15 +128,23 @@ export function BeamsBackground({
             ctx.restore();
         }
 
-        function animate() {
-            if (!canvas || !ctx) return;
+        let lastFrameTime = 0;
+        const fpsInterval = 1000 / 60; // Cap at 60 FPS
 
-            // Use a semi-transparent clear or just fill background to avoid ctx.clearRect being too heavy
+        function animate(currentTime: number) {
+            if (!canvas || !ctx) return;
+            
+            animationFrameRef.current = requestAnimationFrame(animate);
+
+            // FPS Throttling
+            const elapsed = currentTime - lastFrameTime;
+            if (elapsed < fpsInterval) return;
+            lastFrameTime = currentTime - (elapsed % fpsInterval);
+
+            // Fast background clear
             ctx.fillStyle = "#0a0a0a";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            // Removed ctx.filter blur as it's extremely heavy inside loop
-
             const totalBeams = beamsRef.current.length;
             beamsRef.current.forEach((beam, index) => {
                 beam.y -= beam.speed;
@@ -146,13 +154,33 @@ export function BeamsBackground({
                     resetBeam(beam, index, totalBeams);
                 }
 
-                drawBeam(ctx, beam);
-            });
+                // Inline drawing logic for performance
+                ctx.save();
+                ctx.translate(beam.x, beam.y);
+                ctx.rotate((beam.angle * Math.PI) / 180);
 
-            animationFrameRef.current = requestAnimationFrame(animate);
+                const pulsingOpacity =
+                    beam.opacity *
+                    (0.8 + Math.sin(beam.pulse) * 0.2) *
+                    opacityMap[intensity];
+
+                const gradient = ctx.createLinearGradient(0, 0, 0, beam.length);
+                // Use static stops and control intensity via globalAlpha
+                ctx.globalAlpha = pulsingOpacity;
+                
+                gradient.addColorStop(0, `hsla(${beam.hue}, 85%, 65%, 0)`);
+                gradient.addColorStop(0.5, `hsla(${beam.hue}, 85%, 65%, 1)`);
+                gradient.addColorStop(1, `hsla(${beam.hue}, 85%, 65%, 0)`);
+
+                ctx.fillStyle = gradient;
+                ctx.fillRect(-beam.width / 2, 0, beam.width, beam.length);
+                ctx.restore();
+            });
+            
+            ctx.globalAlpha = 1.0; // Reset
         }
 
-        animate();
+        animationFrameRef.current = requestAnimationFrame(animate);
 
         return () => {
             window.removeEventListener("resize", updateCanvasSize);

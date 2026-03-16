@@ -152,7 +152,7 @@ export default function VerifyOtp() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md relative z-10"
       >
-        <div className="bg-black/60 border border-white/10 shadow-2xl rounded-3xl p-8">
+        <div className="bg-black/60 border border-white/10 shadow-2xl rounded-3xl p-8 will-change-transform">
           {/* Header */}
           <div className="flex flex-col items-center text-center mb-8">
             <div className="w-16 h-16 rounded-2xl bg-[#0000FF]/20 border border-[#0000FF]/30 flex items-center justify-center mb-4">
