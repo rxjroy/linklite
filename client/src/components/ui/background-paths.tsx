@@ -3,13 +3,13 @@
 import { motion } from "framer-motion";
 
 function FloatingPaths({ position }: { position: number }) {
-    const paths = Array.from({ length: 36 }, (_, i) => ({
+    const paths = Array.from({ length: 12 }, (_, i) => ({ // Reduced from 36
         id: i,
-        d: `M-${380 - i * 5 * position} -${189 + i * 6}C-${380 - i * 5 * position
-            } -${189 + i * 6} -${312 - i * 5 * position} ${216 - i * 6} ${152 - i * 5 * position
-            } ${343 - i * 6}C${616 - i * 5 * position} ${470 - i * 6} ${684 - i * 5 * position
-            } ${875 - i * 6} ${684 - i * 5 * position} ${875 - i * 6}`,
-        width: 0.5 + i * 0.03,
+        d: `M-${380 - i * 15 * position} -${189 + i * 18}C-${380 - i * 15 * position
+            } -${189 + i * 18} -${312 - i * 15 * position} ${216 - i * 18} ${152 - i * 15 * position
+            } ${343 - i * 18}C${616 - i * 15 * position} ${470 - i * 18} ${684 - i * 15 * position
+            } ${875 - i * 18} ${684 - i * 15 * position} ${875 - i * 18}`,
+        width: 0.8 + i * 0.1,
     }));
 
     return (
@@ -18,6 +18,7 @@ function FloatingPaths({ position }: { position: number }) {
                 className="w-full h-full"
                 viewBox="0 0 696 316"
                 fill="none"
+                preserveAspectRatio="xMidYMid slice" // Ensure it covers without distortion
             >
                 <title>Background Paths</title>
                 {paths.map((path) => (
@@ -26,16 +27,16 @@ function FloatingPaths({ position }: { position: number }) {
                         d={path.d}
                         stroke="currentColor"
                         strokeWidth={path.width}
-                        strokeOpacity={0.05 + path.id * 0.015}
+                        strokeOpacity={0.03 + path.id * 0.02}
                         className="text-white"
-                        initial={{ pathLength: 0.3, opacity: 0.4 }}
+                        initial={{ pathLength: 0.3, opacity: 0.2 }}
                         animate={{
                             pathLength: 1,
-                            opacity: [0.2, 0.5, 0.2],
-                            pathOffset: [0, 1, 0],
+                            opacity: [0.1, 0.3, 0.1],
+                            pathOffset: [0, 1],
                         }}
                         transition={{
-                            duration: 20 + Math.random() * 10,
+                            duration: 25 + Math.random() * 15,
                             repeat: Number.POSITIVE_INFINITY,
                             ease: "linear",
                         }}

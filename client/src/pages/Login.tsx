@@ -86,7 +86,7 @@ export default function Login() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                   required
                   disabled={isLoading}
                 />
@@ -103,7 +103,7 @@ export default function Login() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                   required
                   disabled={isLoading}
                 />
@@ -117,7 +117,7 @@ export default function Login() {
               </div>
               <div className="flex justify-end pt-1">
                 <Link href="/forgot-password">
-                  <a className="text-xs text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
+                  <a className="text-xs text-[#0000FF] hover:text-[#0000EE] font-medium transition-colors">
                     Forgot Password?
                   </a>
                 </Link>
@@ -128,7 +128,7 @@ export default function Login() {
             <NeonButton
               type="submit"
               variant="solid"
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 text-lg font-semibold"
+              className="w-full bg-[#0000FF] hover:bg-[#0000DD] text-white py-3 text-lg font-semibold"
               disabled={isLoading}
             >
               {isLoading ? "Signing in…" : "Sign In"}
@@ -140,7 +140,7 @@ export default function Login() {
         <p className="text-center text-sm text-gray-400 mt-6">
           Don't have an account?{" "}
           <Link href={`/signup${window.location.search}`}>
-            <a className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">
+            <a className="text-[#0000FF] dark:text-[#0000FF] font-medium hover:underline">
               Sign up
             </a>
           </Link>

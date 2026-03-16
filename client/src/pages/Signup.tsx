@@ -94,7 +94,7 @@ export default function Signup() {
                   placeholder="John Doe"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                   required
                   disabled={isLoading}
                 />
@@ -110,7 +110,7 @@ export default function Signup() {
                   placeholder="you@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                  className="w-full pl-10 pr-4 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                   required
                   disabled={isLoading}
                 />
@@ -126,7 +126,7 @@ export default function Signup() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                   required
                   minLength={6}
                   disabled={isLoading}
@@ -150,7 +150,7 @@ export default function Signup() {
                   placeholder="••••••••"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                  className="w-full pl-10 pr-12 py-3 rounded-lg border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                   required
                   disabled={isLoading}
                 />
@@ -173,11 +173,11 @@ export default function Signup() {
               />
               <label htmlFor="terms" className="text-sm text-gray-400 cursor-pointer">
                 I agree to the{" "}
-                <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+                <a href="#" className="text-[#0000FF] dark:text-[#0000FF] hover:underline">
                   Terms of Service
                 </a>{" "}
                 and{" "}
-                <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+                <a href="#" className="text-[#0000FF] dark:text-[#0000FF] hover:underline">
                   Privacy Policy
                 </a>
               </label>
@@ -186,7 +186,7 @@ export default function Signup() {
             <NeonButton
               type="submit"
               variant="solid"
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 text-lg font-semibold"
+              className="w-full bg-[#0000FF] hover:bg-[#0000DD] text-white py-3 text-lg font-semibold"
               disabled={isLoading}
             >
               {isLoading ? "Creating account…" : "Create Account"}
@@ -198,7 +198,7 @@ export default function Signup() {
         <p className="text-center text-sm text-gray-400 mt-6">
           Already have an account?{" "}
           <Link href={`/login${window.location.search}`}>
-            <a className="text-indigo-600 dark:text-indigo-400 font-medium hover:underline">
+            <a className="text-[#0000FF] dark:text-[#0000FF] font-medium hover:underline">
               Sign in
             </a>
           </Link>

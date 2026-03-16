@@ -93,8 +93,8 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen grid lg:grid-cols-2 relative overflow-hidden bg-background">
       {/* Dynamic Background Elements */}
-      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-600/20 blur-[120px] pointer-events-none mix-blend-screen" />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[150px] pointer-events-none mix-blend-screen" />
+      <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#0000FF]/20 blur-[120px] pointer-events-none mix-blend-screen" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#0000FF]/10 blur-[150px] pointer-events-none mix-blend-screen" />
 
       {/* Left Column - Form */}
       <div className="flex items-center justify-center p-8 sm:p-12 relative z-10 w-full max-w-xl mx-auto lg:max-w-none">
@@ -149,7 +149,7 @@ export default function ForgotPassword() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/70 block">Email Address</label>
                     <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/30 group-focus-within:text-indigo-400 transition-colors">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/30 group-focus-within:text-[#0000FF] transition-colors">
                         <Mail className="h-5 w-5" />
                       </div>
                       <input
@@ -167,7 +167,7 @@ export default function ForgotPassword() {
                   <NeonButton
                     type="submit"
                     variant="solid"
-                    className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 h-[52px]"
+                    className="w-full mt-2 bg-[#0000FF] hover:bg-[#0000DD] h-[52px]"
                     disabled={isLoading}
                   >
                     {isLoading ? "Sending Code..." : "Send Reset Code"} <ArrowRight className="ml-2 h-4 w-4 inline" />
@@ -192,7 +192,7 @@ export default function ForgotPassword() {
                       6-Digit Code sent to {email}
                     </label>
                     <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/30 group-focus-within:text-indigo-400 transition-colors">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/30 group-focus-within:text-[#0000FF] transition-colors">
                         <ShieldCheck className="h-5 w-5" />
                       </div>
                       <input
@@ -202,7 +202,7 @@ export default function ForgotPassword() {
                         placeholder="000000"
                         value={otp}
                         onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
-                        className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 tracking-[0.5em] text-center text-lg focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:bg-white/10 transition-all backdrop-blur-sm font-mono"
+                        className="w-full pl-11 pr-4 py-3.5 bg-white/5 border border-white/10 rounded-xl text-white placeholder:text-white/20 tracking-[0.5em] text-center text-lg focus:outline-none focus:ring-2 focus:ring-[#0000FF]/50 focus:bg-white/10 transition-all backdrop-blur-sm font-mono"
                       />
                     </div>
                   </div>
@@ -210,7 +210,7 @@ export default function ForgotPassword() {
                   <NeonButton
                     type="submit"
                     variant="solid"
-                    className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 h-[52px]"
+                    className="w-full mt-2 bg-[#0000FF] hover:bg-[#0000DD] h-[52px]"
                     disabled={otp.length !== 6}
                   >
                     Verify Code <ArrowRight className="ml-2 h-4 w-4 inline" />
@@ -233,7 +233,7 @@ export default function ForgotPassword() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-white/70 block">New Password</label>
                     <div className="relative group">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/30 group-focus-within:text-indigo-400 transition-colors">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-white/30 group-focus-within:text-[#0000FF] transition-colors">
                         <Lock className="h-5 w-5" />
                       </div>
                       <input
@@ -251,7 +251,7 @@ export default function ForgotPassword() {
                   <NeonButton
                     type="submit"
                     variant="solid"
-                    className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 h-[52px]"
+                    className="w-full mt-2 bg-[#0000FF] hover:bg-[#0000DD] h-[52px]"
                     disabled={isLoading}
                   >
                     {isLoading ? "Saving..." : "Reset Password"} <ArrowRight className="ml-2 h-4 w-4 inline" />
@@ -265,7 +265,7 @@ export default function ForgotPassword() {
             <p className="text-white/50 text-sm">
               Remembered your password?{" "}
               <Link href="/login">
-                <span className="text-indigo-400 hover:text-indigo-300 font-medium cursor-pointer transition-colors">
+                <span className="text-[#0000FF] hover:text-[#0000DD] font-medium cursor-pointer transition-colors">
                   Sign in instead
                 </span>
               </Link>
@@ -275,12 +275,12 @@ export default function ForgotPassword() {
       </div>
 
       {/* Right Column - Decorative */}
-      <div className="hidden lg:flex relative bg-gradient-to-br from-indigo-900/40 via-[#0a0a0f] to-indigo-950/20 border-l border-white/5 items-center justify-center p-12">
+      <div className="hidden lg:flex relative bg-gradient-to-br from-[#0000FF]/40 via-[#0a0a0f] to-[#0000AA]/20 border-l border-white/5 items-center justify-center p-12">
         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
         
         <div className="relative z-10 w-full max-w-lg text-center">
-          <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 shadow-[0_0_40px_rgba(99,102,241,0.2)]">
-            <Lock className="w-10 h-10 text-indigo-400" />
+          <div className="mb-8 inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-[#0000FF]/10 border border-[#0000FF]/20 shadow-[0_0_40px_rgba(0,0,255,0.2)]">
+            <Lock className="w-10 h-10 text-[#0000FF]" />
           </div>
           
           <h2 className="text-3xl font-bold text-white mb-4 leading-tight">

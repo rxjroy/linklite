@@ -117,7 +117,7 @@ export function HeroSection() {
               </motion.p>
 
               <motion.div variants={itemVariants} className="flex justify-center w-full max-w-[95vw] sm:max-w-2xl mx-auto px-2 sm:px-0 mt-4 overflow-hidden">
-                <div className="flex w-full items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1.5 shadow-[0_0_30px_rgba(79,70,229,0.08)] max-w-full">
+                <div className="flex w-full items-center gap-2 rounded-full border border-white/10 bg-white/5 backdrop-blur-md p-1.5 shadow-[0_0_30px_rgba(0,0,255,0.08)] max-w-full">
                   <input
                     type="url"
                     placeholder="paste long URL..."
@@ -127,7 +127,7 @@ export function HeroSection() {
                     className="flex-1 bg-transparent px-3 sm:px-5 py-2 sm:py-3 text-white placeholder:text-white/40 focus:outline-none text-sm w-full min-w-0"
                   />
                   <HoverButton
-                    className="shrink-0 flex items-center justify-center gap-1 sm:gap-2 bg-indigo-600 hover:bg-indigo-700 px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-semibold rounded-full whitespace-nowrap min-w-fit"
+                    className="shrink-0 flex items-center justify-center gap-1 sm:gap-2 bg-[#0000FF] hover:bg-[#0000DD] px-3 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm font-semibold rounded-full whitespace-nowrap min-w-fit"
                     onClick={handleShortenClick}
                   >
                     <span className="hidden sm:inline">Shorten URL</span>
@@ -147,7 +147,7 @@ export function HeroSection() {
                 <h3 className="text-lg md:text-xl font-bold text-white">Track Your Links & Get Insights</h3>
                 <p className="text-xs text-white/40 mt-0.5">Your real-time analytics dashboard</p>
               </div>
-              <span className="text-[10px] uppercase tracking-widest font-semibold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full">Live Preview</span>
+              <span className="text-[10px] uppercase tracking-widest font-semibold text-[#0000FF] bg-[#0000FF]/10 border border-[#0000FF]/20 px-3 py-1 rounded-full">Live Preview</span>
             </div>
 
             {/* Stat Cards Row */}
@@ -160,7 +160,7 @@ export function HeroSection() {
               ].map((stat, i) => (
                 <div
                   key={i}
-                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-600 to-indigo-400 p-2 md:p-4 border border-white/10 transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/40 cursor-default"
+                  className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#0000FF] to-[#0099FF] p-2 md:p-4 border border-white/10 transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg hover:shadow-black/40 cursor-default"
                 >
                   <div className="absolute -top-8 -right-8 w-20 h-20 bg-white/10 rounded-full blur-2xl" />
                   <div className="relative z-10">
@@ -198,7 +198,7 @@ export function HeroSection() {
                     { slug: "yt-demo", url: "https://youtube.com/watch?v=xK2d8f...", clicks: "956" },
                   ].map((link, i) => (
                     <tr key={i} className="hover:bg-white/[0.03] transition-colors duration-150 cursor-default">
-                      <td className="px-4 py-2.5 font-mono text-indigo-400 whitespace-nowrap">
+                      <td className="px-4 py-2.5 font-mono text-[#0000FF] whitespace-nowrap">
                         <span className="flex items-center gap-1">
                           /{link.slug}
                           <ExternalLink className="h-2.5 w-2.5 opacity-40" />

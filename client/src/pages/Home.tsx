@@ -105,7 +105,7 @@ export default function Home() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/signup">
-                  <HoverButton className="bg-blue-600 text-white hover:bg-blue-700 font-semibold px-8 py-4 text-lg">
+                  <HoverButton className="bg-[#0000FF] text-white hover:bg-[#0000DD] font-semibold px-8 py-4 text-lg">
                     Get Started Free
                   </HoverButton>
                 </Link>
@@ -117,7 +117,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="absolute inset-0 -z-10 rounded-3xl p-px bg-gradient-to-br from-blue-600/30 via-transparent to-blue-400/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="absolute inset-0 -z-10 rounded-3xl p-px bg-gradient-to-br from-[#0000FF]/30 via-transparent to-[#0099FF]/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
         </motion.div>
       </section>

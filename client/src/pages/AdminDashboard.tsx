@@ -42,7 +42,7 @@ export default function AdminDashboard() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[#0000FF] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -52,7 +52,7 @@ export default function AdminDashboard() {
       <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <h1 className="text-2xl sm:text-3xl font-bold">Admin Dashboard</h1>
-          <Link href="/dashboard" className="text-sm text-indigo-400 hover:text-indigo-300">
+          <Link href="/dashboard" className="text-sm text-[#0000FF] hover:text-[#0000DD]">
             &larr; Back to App
           </Link>
         </div>
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
                     <td className="px-6 py-4">{u.name}</td>
                     <td className="px-6 py-4">{u.email}</td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${u.role === 'admin' ? 'bg-indigo-500/20 text-indigo-300' : 'bg-white/10'}`}>
+                      <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs ${u.role === 'admin' ? 'bg-[#0000FF]/20 text-[#0000FF]' : 'bg-white/10'}`}>
                         {u.role}
                       </span>
                     </td>
@@ -110,7 +110,7 @@ export default function AdminDashboard() {
                     <td className="px-6 py-4 font-mono">{u.linkCount}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center space-x-4 whitespace-nowrap">
-                        <Link href={`/admin/users/${u._id}`} className="text-sm text-indigo-400 hover:text-indigo-300">
+                        <Link href={`/admin/users/${u._id}`} className="text-sm text-[#0000FF] hover:text-[#0000DD]">
                           View Links
                         </Link>
                         {u.role !== "admin" && (

@@ -11,7 +11,7 @@ import {
 import { api } from "@/lib/api";
 import type { OverviewStats, LinkAnalytics } from "@shared/types";
 
-const COLORS = ["#4F46E5", "#06B6D4", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"];
+const COLORS = ["#0000FF", "#06B6D4", "#10B981", "#F59E0B", "#EF4444", "#8B5CF6"];
 
 export default function Analytics() {
   const search = useSearch();
@@ -98,7 +98,7 @@ export default function Analytics() {
                         : (overview?.totalClicks ?? 0).toLocaleString()
                     }
                     trend={0}
-                    color="from-indigo-600 to-indigo-400"
+                    color="from-[#0000FF] to-[#0099FF]"
                   />
                 </motion.div>
                 <motion.div variants={itemVariants}>
@@ -107,7 +107,7 @@ export default function Analytics() {
                     title="Last 30 Days"
                     value={(overview?.recentClicks ?? 0).toLocaleString()}
                     trend={0}
-                    color="from-indigo-600 to-indigo-400"
+                    color="from-[#0000FF] to-[#0099FF]"
                   />
                 </motion.div>
                 <motion.div variants={itemVariants}>
@@ -116,7 +116,7 @@ export default function Analytics() {
                     title="Total Links"
                     value={(overview?.totalLinks ?? 0).toString()}
                     trend={0}
-                    color="from-indigo-600 to-indigo-400"
+                    color="from-[#0000FF] to-[#0099FF]"
                   />
                 </motion.div>
                 <motion.div variants={itemVariants}>
@@ -131,7 +131,7 @@ export default function Analytics() {
                         : "0"
                     }
                     trend={0}
-                    color="from-indigo-600 to-indigo-400"
+                    color="from-[#0000FF] to-[#0099FF]"
                   />
                 </motion.div>
               </motion.div>
@@ -161,9 +161,9 @@ export default function Analytics() {
                       <Line
                         type="monotone"
                         dataKey="clicks"
-                        stroke="#4F46E5"
+                        stroke="#0000FF"
                         strokeWidth={2}
-                        dot={{ fill: "#4F46E5", r: 4 }}
+                        dot={{ fill: "#0000FF", r: 4 }}
                         activeDot={{ r: 6 }}
                       />
                     </LineChart>
@@ -228,7 +228,7 @@ export default function Analytics() {
                               color: "#fff",
                             }}
                           />
-                          <Bar dataKey="value" fill="#818CF8" radius={[6, 6, 0, 0]} />
+                          <Bar dataKey="value" fill="#0000FF" radius={[6, 6, 0, 0]} />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
@@ -254,7 +254,7 @@ export default function Analytics() {
                             <p className="text-sm text-gray-300 truncate">{r.referrer}</p>
                             <div className="mt-1 w-full bg-secondary rounded-full h-1.5">
                               <div
-                                className="bg-gradient-to-r from-indigo-600 to-cyan-500 h-1.5 rounded-full"
+                                className="bg-gradient-to-r from-[#0000FF] to-cyan-500 h-1.5 rounded-full"
                                 style={{ width: `${(r.clicks / max) * 100}%` }}
                               />
                             </div>

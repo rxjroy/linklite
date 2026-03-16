@@ -68,7 +68,7 @@ export function DateTimePicker({ date, setDate, disabled }: DateTimePickerProps)
           )}
           disabled={disabled}
         >
-          <CalendarIcon className="mr-3 h-5 w-5 text-indigo-400 shrink-0" />
+          <CalendarIcon className="mr-3 h-5 w-5 text-[#0000FF] shrink-0" />
           {selectedDateTime ? (
             formatDateTime(selectedDateTime)
           ) : (
@@ -94,11 +94,11 @@ export function DateTimePicker({ date, setDate, disabled }: DateTimePickerProps)
 
         {/* Time Picker Row */}
         <div className="flex items-center gap-3 px-4 py-3 border-t border-white/10 bg-white/[0.02]">
-          <Clock className="h-4 w-4 text-indigo-400 shrink-0" />
+          <Clock className="h-4 w-4 text-[#0000FF] shrink-0" />
           <span className="text-sm font-medium text-white/70">Time</span>
           <div className="flex items-center gap-1.5 ml-auto">
             <select
-              className="appearance-none bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-center min-w-[56px]"
+              className="appearance-none bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#0000FF] cursor-pointer text-center min-w-[56px]"
               value={selectedDateTime ? selectedDateTime.getHours().toString().padStart(2, "0") : "12"}
               onChange={(e) => handleTimeChange("hour", e.target.value)}
             >
@@ -110,7 +110,7 @@ export function DateTimePicker({ date, setDate, disabled }: DateTimePickerProps)
             </select>
             <span className="text-white/40 font-bold text-lg">:</span>
             <select
-              className="appearance-none bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 cursor-pointer text-center min-w-[56px]"
+              className="appearance-none bg-white/5 border border-white/10 rounded-lg px-3 py-1.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[#0000FF] cursor-pointer text-center min-w-[56px]"
               value={selectedDateTime ? selectedDateTime.getMinutes().toString().padStart(2, "0") : "00"}
               onChange={(e) => handleTimeChange("minute", e.target.value)}
             >

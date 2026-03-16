@@ -38,7 +38,7 @@ export default function AdminUserLinks({ userId }: { userId: string }) {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="w-8 h-8 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+        <div className="w-8 h-8 border-2 border-[#0000FF] border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -47,7 +47,7 @@ export default function AdminUserLinks({ userId }: { userId: string }) {
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-8">
       <div className="max-w-6xl mx-auto space-y-6 sm:space-y-8">
         <div className="flex items-center space-x-4">
-          <Link href="/admin" className="text-indigo-400 flex items-center hover:text-indigo-300 mb-1">
+          <Link href="/admin" className="text-[#0000FF] flex items-center hover:text-[#0000DD] mb-1">
             &larr; Back to Users
           </Link>
         </div>
@@ -79,7 +79,7 @@ export default function AdminUserLinks({ userId }: { userId: string }) {
                   {links.map((l) => (
                     <tr key={l._id} className="hover:bg-white/5 transition-colors">
                       <td className="px-6 py-4 font-mono text-sm">
-                         <a href={`/${l.slug}`} target="_blank" rel="noreferrer" className="text-indigo-400 hover:underline">
+                         <a href={`/${l.slug}`} target="_blank" rel="noreferrer" className="text-[#0000FF] hover:underline">
                            /{l.slug}
                          </a>
                       </td>

@@ -35,7 +35,7 @@ export function Sidebar() {
       {/* Mobile Toggle — sits in its own row above dashboard content */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="md:hidden fixed top-4 left-4 z-40 p-2.5 bg-background/90 border border-white/10 backdrop-blur-md hover:bg-secondary rounded-xl smooth-transition shadow-lg"
+        className="md:hidden fixed top-4 left-4 z-40 p-2.5 bg-background/90 border border-white/10 hover:bg-secondary rounded-xl smooth-transition shadow-lg"
         aria-label="Toggle sidebar"
       >
         {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -69,11 +69,11 @@ export function Sidebar() {
                   }}
                   className={`flex items-center gap-3 px-4 py-3 rounded-r-lg smooth-transition cursor-pointer relative ${
                     isActive
-                      ? "text-indigo-400 font-medium bg-gradient-to-r from-indigo-500/10 to-transparent border-l-4 border-indigo-500"
+                      ? "text-[#0000FF] font-medium bg-gradient-to-r from-[#0000FF]/10 to-transparent border-l-4 border-[#0000FF]"
                       : "text-gray-400 hover:text-white hover:bg-secondary border-l-4 border-transparent"
                   }`}
                 >
-                  <Icon className={`h-5 w-5 ${isActive ? 'text-indigo-400' : 'text-gray-500'}`} />
+                  <Icon className={`h-5 w-5 ${isActive ? 'text-[#0000FF]' : 'text-gray-500'}`} />
                   <span>{item.label}</span>
                 </div>
               </Link>
@@ -90,11 +90,11 @@ export function Sidebar() {
                 }}
                 className={`flex items-center gap-3 px-4 py-3 rounded-r-lg smooth-transition cursor-pointer relative mt-2 border-t border-white/10 pt-4 ${
                   location.startsWith("/admin")
-                    ? "text-indigo-400 font-medium bg-gradient-to-r from-indigo-500/10 to-transparent border-l-4 border-indigo-500"
+                    ? "text-[#0000FF] font-medium bg-gradient-to-r from-[#0000FF]/10 to-transparent border-l-4 border-[#0000FF]"
                     : "text-gray-400 hover:text-white hover:bg-secondary border-l-4 border-transparent"
                 }`}
               >
-                <Shield className={`h-5 w-5 ${location.startsWith("/admin") ? 'text-indigo-400' : 'text-gray-500'}`} />
+                <Shield className={`h-5 w-5 ${location.startsWith("/admin") ? 'text-[#0000FF]' : 'text-gray-500'}`} />
                 <span>Admin Panel</span>
               </div>
             </Link>
@@ -115,7 +115,7 @@ export function Sidebar() {
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-20"
+          className="md:hidden fixed inset-0 bg-black/60 z-20"
           onClick={() => setIsOpen(false)}
         />
       )}

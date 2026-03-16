@@ -28,7 +28,7 @@ export function Navbar() {
       transition={{ duration: 0.5 }}
       className="sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-xl"
     >
-      <ScrollProgress className="absolute top-0 bg-blue-600" />
+      <ScrollProgress className="absolute top-0 bg-[#0000FF]" />
       <div className="container relative flex items-center justify-between h-16 sm:h-20 px-4">
         {/* Logo */}
         <span
@@ -58,7 +58,7 @@ export function Navbar() {
         <div className="hidden sm:flex items-center gap-3">
           {isAuthenticated ? (
             <HoverButton
-              className="gap-2 bg-indigo-600 hover:bg-indigo-700 px-6"
+              className="gap-2 bg-[#0000FF] hover:bg-[#0000DD] px-6"
               onClick={() => setLocation("/dashboard")}
             >
               <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">
@@ -137,7 +137,7 @@ export function Navbar() {
               <div className="pt-3 space-y-2 border-t border-border flex flex-col items-center">
                 {isAuthenticated ? (
                   <HoverButton
-                    className="w-full bg-indigo-600 hover:bg-indigo-700"
+                    className="w-full bg-[#0000FF] hover:bg-[#0000DD]"
                     onClick={() => setLocation("/dashboard")}
                   >
                     Dashboard

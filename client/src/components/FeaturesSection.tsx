@@ -18,7 +18,7 @@ const features: BentoItem[] = [
   {
     title: "Instant URL Shortening",
     description: "Convert long URLs into short, shareable links in milliseconds",
-    icon: <Link className="w-5 h-5 text-indigo-400" />,
+    icon: <Link className="w-5 h-5 text-[#0000FF]" />,
     status: "Lightning Fast",
     tags: ["Core", "Speed"],
     colSpan: 2,
@@ -27,20 +27,20 @@ const features: BentoItem[] = [
   {
     title: "Advanced Analytics",
     description: "Track clicks, devices, browsers, and geographic data in real-time",
-    icon: <BarChart3 className="w-5 h-5 text-indigo-400" />,
+    icon: <BarChart3 className="w-5 h-5 text-[#0000FF]" />,
     status: "Live Data",
     tags: ["Metrics", "Insights"],
   },
   {
     title: "Password Protection",
     description: "Add password protection to sensitive links for extra security",
-    icon: <Lock className="w-5 h-5 text-indigo-400" />,
+    icon: <Lock className="w-5 h-5 text-[#0000FF]" />,
     tags: ["Security", "Access"],
   },
   {
     title: "QR Code Generation",
     description: "Automatically generate QR codes for every shortened link",
-    icon: <QrCode className="w-5 h-5 text-indigo-400" />,
+    icon: <QrCode className="w-5 h-5 text-[#0000FF]" />,
     status: "Popular",
     tags: ["Tools", "Offline"],
     colSpan: 2,
@@ -48,13 +48,13 @@ const features: BentoItem[] = [
   {
     title: "Link Expiry",
     description: "Set expiration dates for temporary links and campaigns",
-    icon: <Clock className="w-5 h-5 text-indigo-400" />,
+    icon: <Clock className="w-5 h-5 text-[#0000FF]" />,
     tags: ["Campaigns", "Time-based"],
   },
   {
     title: "Easy Sharing",
     description: "Copy, share, or embed your shortened links anywhere",
-    icon: <Share2 className="w-5 h-5 text-indigo-400" />,
+    icon: <Share2 className="w-5 h-5 text-[#0000FF]" />,
     tags: ["Social", "Integration"],
   },
 ];

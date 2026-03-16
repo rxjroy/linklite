@@ -59,13 +59,13 @@ function BentoGrid({ items }: BentoGridProps) {
 
                     <div className="relative flex flex-col h-full space-y-4">
                         <div className="flex items-center justify-between">
-                            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/10 group-hover:bg-gradient-to-br from-blue-600/20 to-blue-400/20 transition-all duration-300">
+                            <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-white/5 border border-white/10 group-hover:bg-gradient-to-br from-[#0000FF]/20 to-[#0099FF]/20 transition-all duration-300">
                                 {item.icon}
                             </div>
                             {item.status && (
                                 <span
                                     className={cn(
-                                        "text-xs font-medium px-2.5 py-1 rounded-lg backdrop-blur-sm",
+                                        "text-xs font-medium px-2.5 py-1 rounded-lg",
                                         "bg-white/5 text-gray-300 border border-white/5",
                                         "transition-colors duration-300 group-hover:bg-white/10"
                                     )}
@@ -79,7 +79,7 @@ function BentoGrid({ items }: BentoGridProps) {
                             <h3 className="font-semibold text-white tracking-tight text-lg">
                                 {item.title}
                                 {item.meta && (
-                                    <span className="ml-2 text-xs text-indigo-400 font-normal border border-indigo-500/30 bg-indigo-500/10 px-2 py-0.5 rounded-full">
+                                    <span className="ml-2 text-xs text-[#0000FF] font-normal border border-[#0000FF]/30 bg-[#0000FF]/10 px-2 py-0.5 rounded-full">
                                         {item.meta}
                                     </span>
                                 )}
@@ -94,7 +94,7 @@ function BentoGrid({ items }: BentoGridProps) {
                                 {item.tags?.map((tag, i) => (
                                     <span
                                         key={i}
-                                        className="px-2.5 py-1 rounded-md bg-white/5 border border-white/5 backdrop-blur-sm transition-all duration-200 hover:bg-white/10"
+                                        className="px-2.5 py-1 rounded-md bg-white/5 border border-white/5 transition-all duration-200 hover:bg-white/10"
                                     >
                                         #{tag}
                                     </span>
@@ -107,7 +107,7 @@ function BentoGrid({ items }: BentoGridProps) {
                     </div>
 
                     <div
-                        className={`absolute inset-0 -z-10 rounded-2xl p-px bg-gradient-to-br from-blue-600/20 via-transparent to-blue-400/20 ${item.hasPersistentHover
+                        className={`absolute inset-0 -z-10 rounded-2xl p-px bg-gradient-to-br from-[#0000FF]/20 via-transparent to-[#0099FF]/20 ${item.hasPersistentHover
                                 ? "opacity-100"
                                 : "opacity-0 group-hover:opacity-100"
                             } transition-opacity duration-500`}

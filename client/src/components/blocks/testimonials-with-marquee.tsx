@@ -41,7 +41,7 @@ export function TestimonialsSection({
                 <div className="relative flex w-full flex-col items-center justify-center overflow-hidden">
                     <div className="group flex overflow-hidden p-2 [--gap:1rem] [gap:var(--gap)] flex-row [--duration:40s]">
                         <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]">
-                            {[...Array(4)].map((_, setIndex) => (
+                            {[...Array(2)].map((_, setIndex) => (
                                 testimonials.map((testimonial, i) => (
                                     <TestimonialCard
                                         key={`${setIndex}-${i}`}
@@ -52,7 +52,7 @@ export function TestimonialsSection({
                         </div>
                         {/* Duplicate the container to create a seamless loop */}
                         <div className="flex shrink-0 justify-around [gap:var(--gap)] animate-marquee flex-row group-hover:[animation-play-state:paused]" aria-hidden="true">
-                            {[...Array(4)].map((_, setIndex) => (
+                            {[...Array(2)].map((_, setIndex) => (
                                 testimonials.map((testimonial, i) => (
                                     <TestimonialCard
                                         key={`dup-${setIndex}-${i}`}

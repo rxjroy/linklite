@@ -168,7 +168,7 @@ export default function Dashboard() {
                 title="Total Links"
                 value={stats ? String(stats.totalLinks) : "—"}
                 trend={0}
-                color="from-indigo-600 to-indigo-400"
+                color="from-[#0000FF] to-[#0099FF]"
               />
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -177,7 +177,7 @@ export default function Dashboard() {
                 title="Total Clicks"
                 value={stats ? stats.totalClicks.toLocaleString() : "—"}
                 trend={0}
-                color="from-indigo-600 to-indigo-400"
+                color="from-[#0000FF] to-[#0099FF]"
               />
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -186,7 +186,7 @@ export default function Dashboard() {
                 title="Last 30 Days"
                 value={stats ? stats.recentClicks.toLocaleString() : "—"}
                 trend={0}
-                color="from-indigo-600 to-indigo-400"
+                color="from-[#0000FF] to-[#0099FF]"
               />
             </motion.div>
             <motion.div variants={itemVariants}>
@@ -199,7 +199,7 @@ export default function Dashboard() {
                     : "—"
                 }
                 trend={0}
-                color="from-indigo-600 to-indigo-400"
+                color="from-[#0000FF] to-[#0099FF]"
               />
             </motion.div>
           </motion.div>
@@ -209,7 +209,7 @@ export default function Dashboard() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="backdrop-blur-xl bg-black/40 border border-white/5 rounded-2xl overflow-hidden shadow-2xl"
+            className="backdrop-blur-md bg-black/40 border border-white/5 rounded-2xl overflow-hidden shadow-2xl"
           >
             <div className="p-6 border-b border-white/5 flex items-center justify-between">
               <h2 className="text-lg font-bold text-white tracking-wide">Your Links</h2>
@@ -222,7 +222,7 @@ export default function Dashboard() {
                   <p className="text-gray-400 mb-4">No links yet. Create your first short link!</p>
                   <NeonButton
                     variant="solid"
-                    className="gap-2 bg-indigo-600 hover:bg-indigo-700"
+                    className="gap-2 bg-[#0000FF] hover:bg-[#0000DD]"
                     onClick={() => setShowModal(true)}
                   >
                     <Plus className="h-4 w-4" />
@@ -243,12 +243,12 @@ export default function Dashboard() {
                   <tbody className="divide-y divide-white/5">
                     {links.map((link) => (
                       <tr key={link._id} className="hover:bg-secondary/30 smooth-transition">
-                        <td className="px-6 py-4 text-sm font-mono text-indigo-400">
+                        <td className="px-6 py-4 text-sm font-mono text-[#0000FF]">
                           <a
                             href={`${BASE_URL}/${link.slug}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-indigo-400 hover:text-indigo-300 font-mono text-sm flex items-center gap-1"
+                            className="text-[#0000FF] hover:text-[#0000EE] font-mono text-sm flex items-center gap-1"
                           >
                             /{link.slug}
                             <ExternalLink className="h-3 w-3 opacity-50" />
@@ -311,13 +311,13 @@ export default function Dashboard() {
 
       {/* Create Link Modal */}
       {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60">
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.3 }}
-            className="backdrop-blur-xl bg-black/50 border border-white/10 shadow-2xl w-full max-w-lg p-5 sm:p-8 rounded-3xl max-h-[90vh] overflow-y-auto"
+            className="backdrop-blur-md bg-black/50 border border-white/10 shadow-2xl w-full max-w-lg p-5 sm:p-8 rounded-3xl max-h-[90vh] overflow-y-auto"
           >
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-xl sm:text-2xl font-bold text-white tracking-tight">Create Short Link</h2>
@@ -337,18 +337,18 @@ export default function Dashboard() {
               )}
 
               {/* Required Section */}
-              <div className="space-y-4 border-l-2 border-indigo-500 pl-4">
-                <p className="text-xs font-semibold uppercase tracking-wider text-indigo-400">Required</p>
+              <div className="space-y-4 border-l-2 border-[#0000FF] pl-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#0000FF]">Required</p>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-white/90">
-                    Destination URL <span className="text-indigo-400">*</span>
+                    Destination URL <span className="text-[#0000FF]">*</span>
                   </label>
                   <input
                     type="url"
                     placeholder="https://example.com/your/long/url"
                     value={form.originalUrl}
                     onChange={(e) => setForm((f) => ({ ...f, originalUrl: e.target.value }))}
-                    className="w-full px-4 py-3.5 rounded-xl border border-indigo-500/30 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                    className="w-full px-4 py-3.5 rounded-xl border border-[#0000FF]/30 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                     required
                     disabled={creating}
                   />
@@ -379,7 +379,7 @@ export default function Dashboard() {
                         placeholder="my-link"
                         value={form.customAlias}
                         onChange={(e) => setForm((f) => ({ ...f, customAlias: e.target.value }))}
-                        className="flex-1 px-4 py-3.5 rounded-r-xl border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                        className="flex-1 px-4 py-3.5 rounded-r-xl border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                         disabled={creating}
                       />
                     </div>
@@ -405,7 +405,7 @@ export default function Dashboard() {
                         placeholder="Protect this link"
                         value={form.password}
                         onChange={(e) => setForm((f) => ({ ...f, password: e.target.value }))}
-                        className="w-full px-4 py-3.5 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-indigo-500 smooth-transition"
+                        className="w-full px-4 py-3.5 rounded-xl border border-white/10 bg-white/5 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-[#0000FF] smooth-transition"
                         disabled={creating}
                       />
                     </div>
@@ -433,7 +433,7 @@ export default function Dashboard() {
                 <NeonButton
                   type="submit"
                   variant="solid"
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-700 py-3 rounded-xl text-base"
+                  className="flex-1 bg-[#0000FF] hover:bg-[#0000DD] py-3 rounded-xl text-base"
                   disabled={creating}
                 >
                   {creating ? "Creating…" : "Create Link"}
@@ -455,7 +455,7 @@ export default function Dashboard() {
           >
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <QrCode className="h-5 w-5 text-indigo-400" />
+                <QrCode className="h-5 w-5 text-[#0000FF]" />
                 QR Code
               </h2>
               <button
@@ -467,7 +467,7 @@ export default function Dashboard() {
             </div>
 
             <div className="flex justify-center mb-6">
-              <div className="bg-white p-4 rounded-xl shadow-xl shadow-indigo-500/10">
+              <div className="bg-white p-4 rounded-xl shadow-xl shadow-[#0000FF]/10">
                 <img src={qrModal.qrUrl} alt="QR Code" className="w-48 h-48" />
               </div>
             </div>
@@ -475,7 +475,7 @@ export default function Dashboard() {
             <a
               href={qrModal.qrUrl}
               download="linklite-qr.png"
-              className="inline-flex w-full justify-center items-center gap-2 px-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium smooth-transition mb-5"
+              className="inline-flex w-full justify-center items-center gap-2 px-4 py-3 rounded-xl bg-[#0000FF] hover:bg-[#0000DD] text-white font-medium smooth-transition mb-5"
             >
               Download QR Code
             </a>

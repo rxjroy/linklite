@@ -16,21 +16,21 @@ const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>(
             x: number
             y: number
             color: string
-            fadeState: "in" | "out" | null
         }>>([])
         const lastAddedRef = React.useRef(0)
 
         const createCircle = React.useCallback((x: number, y: number) => {
             const buttonWidth = buttonRef.current?.offsetWidth || 0
             const xPos = x / buttonWidth
-            // Updated to match LinkLite's Indigo-to-Cyan theme
-            const color = `linear-gradient(to right, var(--circle-start) ${xPos * 100}%, var(--circle-end) ${xPos * 100
-                }%)`
+            const color = `linear-gradient(to right, var(--circle-start) ${xPos * 100}%, var(--circle-end) ${xPos * 100}%)`
 
-            setCircles((prev) => [
-                ...prev,
-                { id: Date.now(), x, y, color, fadeState: null },
-            ])
+            const id = Date.now()
+            setCircles((prev) => [...prev, { id, x, y, color }])
+
+            // Clean up circle after animation
+            setTimeout(() => {
+                setCircles((prev) => prev.filter((c) => c.id !== id))
+            }, 2000)
         }, [])
 
         const handlePointerMove = React.useCallback(
@@ -38,7 +38,8 @@ const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>(
                 if (!isListening) return
 
                 const currentTime = Date.now()
-                if (currentTime - lastAddedRef.current > 100) {
+                // Throttle circle creation more aggressively
+                if (currentTime - lastAddedRef.current > 150) {
                     lastAddedRef.current = currentTime
                     const rect = event.currentTarget.getBoundingClientRect()
                     const x = event.clientX - rect.left
@@ -57,39 +58,13 @@ const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>(
             setIsListening(false)
         }, [])
 
-        React.useEffect(() => {
-            circles.forEach((circle) => {
-                if (!circle.fadeState) {
-                    setTimeout(() => {
-                        setCircles((prev) =>
-                            prev.map((c) =>
-                                c.id === circle.id ? { ...c, fadeState: "in" } : c
-                            )
-                        )
-                    }, 0)
-
-                    setTimeout(() => {
-                        setCircles((prev) =>
-                            prev.map((c) =>
-                                c.id === circle.id ? { ...c, fadeState: "out" } : c
-                            )
-                        )
-                    }, 1000)
-
-                    setTimeout(() => {
-                        setCircles((prev) => prev.filter((c) => c.id !== circle.id))
-                    }, 2200)
-                }
-            })
-        }, [circles])
-
         return (
             <button
                 ref={buttonRef}
                 className={cn(
                     "relative isolate px-8 py-3 rounded-full",
                     "text-white font-medium text-base leading-6",
-                    "bg-indigo-600 hover:bg-indigo-700",
+                    "bg-[#0000FF] hover:bg-[#0000DD]",
                     "cursor-pointer overflow-hidden smooth-transition flex items-center justify-center min-w-max",
                     "before:content-[''] before:absolute before:inset-0",
                     "before:rounded-[inherit] before:pointer-events-none",
@@ -104,21 +79,25 @@ const HoverButton = React.forwardRef<HTMLButtonElement, HoverButtonProps>(
                 onPointerLeave={handlePointerLeave}
                 {...props}
                 style={{
-                    "--circle-start": "#4F46E5", // Indigo-600 (default)
-                    "--circle-end": "#06B6D4",   // Cyan-500 (default)
+                    "--circle-start": "#0000FF",
+                    "--circle-end": "#0099FF",
                     ...style,
                 } as React.CSSProperties}
             >
-                {circles.map(({ id, x, y, color, fadeState }) => (
+                <style dangerouslySetInnerHTML={{ __html: `
+                    @keyframes circle-fade {
+                        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+                        20% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+                        100% { opacity: 0; transform: translate(-50%, -50%) scale(1.5); }
+                    }
+                    .animate-circle {
+                        animation: circle-fade 2s ease-out forwards;
+                    }
+                `}} />
+                {circles.map(({ id, x, y, color }) => (
                     <div
                         key={id}
-                        className={cn(
-                            "absolute w-4 h-4 -translate-x-1/2 -translate-y-1/2 rounded-full",
-                            "blur-md pointer-events-none z-[-1] transition-opacity duration-300",
-                            fadeState === "in" && "opacity-100",
-                            fadeState === "out" && "opacity-0 duration-[1.2s]",
-                            !fadeState && "opacity-0"
-                        )}
+                        className="absolute w-6 h-6 rounded-full blur-md pointer-events-none z-[-1] animate-circle"
                         style={{
                             left: x,
                             top: y,

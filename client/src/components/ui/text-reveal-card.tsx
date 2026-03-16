@@ -38,7 +38,11 @@ export const TextRevealCard = ({
     const { clientX } = event;
     if (cardRef.current) {
       const relativeX = clientX - left;
-      setWidthPercentage((relativeX / localWidth) * 100);
+      const newPercentage = (relativeX / localWidth) * 100;
+      // Small optimization: only update if change is significant
+      if (Math.abs(newPercentage - widthPercentage) > 0.1) {
+        setWidthPercentage(newPercentage);
+      }
     }
   }
 
@@ -50,7 +54,6 @@ export const TextRevealCard = ({
     setIsMouseOver(true);
   }
   function touchMoveHandler(event: React.TouchEvent<HTMLDivElement>) {
-    event.preventDefault();
     const clientX = event.touches[0]!.clientX;
     if (cardRef.current) {
       const relativeX = clientX - left;
@@ -99,7 +102,7 @@ export const TextRevealCard = ({
                   }
             }
             transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
-            className="z-20 will-change-transform"
+            className="z-20 will-change-[clip-path,opacity]"
           >
             <p
               style={{ textShadow: "4px 4px 15px rgba(0,0,0,0.5)" }}
@@ -117,7 +120,7 @@ export const TextRevealCard = ({
               opacity: widthPercentage > 0 ? 1 : 0,
             }}
             transition={isMouseOver ? { duration: 0 } : { duration: 0.4 }}
-            className="h-full w-[8px] bg-gradient-to-b from-transparent via-neutral-200 to-transparent absolute z-50 will-change-transform"
+            className="h-full w-[8px] bg-gradient-to-b from-transparent via-neutral-200 to-transparent absolute z-50 will-change-[left,rotate,opacity]"
           ></motion.div>
         </div>
       </div>
@@ -152,27 +155,23 @@ export const TextRevealCardDescription = ({
 };
 
 const Stars = ({ active }: { active: boolean }) => {
-  const randomMove = () => Math.random() * 4 - 2;
-  const randomOpacity = () => Math.random();
   const random = () => Math.random();
   return (
     <div className="absolute inset-0 z-0 pointer-events-none">
       <AnimatePresence>
-        {active && [...Array(30)].map((_, i) => (
+        {active && [...Array(12)].map((_, i) => ( // Reduced from 30 to 12
           <motion.span
             key={`star-${i}`}
-            initial={{ opacity: 0 }}
+            initial={{ opacity: 0, scale: 0 }}
             animate={{
-              top: `calc(${random() * 100}% + ${randomMove()}px)`,
-              left: `calc(${random() * 100}% + ${randomMove()}px)`,
-              opacity: randomOpacity(),
-              scale: [1, 1.2, 0],
+              opacity: [0, 1, 0],
+              scale: [0, 1.2, 0],
             }}
             exit={{ opacity: 0 }}
             transition={{
               duration: random() * 2 + 1,
               repeat: Infinity,
-              ease: "linear",
+              ease: "easeInOut",
             }}
             style={{
               position: "absolute",
