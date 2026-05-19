@@ -47,7 +47,10 @@ authRouter.post("/signup", async (req, res) => {
     await sendOtpEmail(email, code, "signup");
   } catch (err: any) {
     console.error("[auth] Failed to send OTP email:", err.message);
-    res.status(500).json({ error: "Failed to send verification email. Please try again." });
+    const userMsg = err.message?.includes("authentication failed")
+      ? "Email service is misconfigured. Please contact the administrator."
+      : "Failed to send verification email. Please try again.";
+    res.status(500).json({ error: userMsg });
     return;
   }
 
@@ -97,7 +100,10 @@ authRouter.post("/login", async (req, res) => {
     await sendOtpEmail(email, code, "login");
   } catch (err: any) {
     console.error("[auth] Failed to send OTP email:", err.message);
-    res.status(500).json({ error: "Failed to send verification email. Please try again." });
+    const userMsg = err.message?.includes("authentication failed")
+      ? "Email service is misconfigured. Please contact the administrator."
+      : "Failed to send verification email. Please try again.";
+    res.status(500).json({ error: userMsg });
     return;
   }
 
@@ -232,7 +238,10 @@ authRouter.post("/resend-otp", async (req, res) => {
     await sendOtpEmail(email, code, type);
   } catch (err: any) {
     console.error("[auth] Failed to resend OTP email:", err.message);
-    res.status(500).json({ error: "Failed to send verification email." });
+    const userMsg = err.message?.includes("authentication failed")
+      ? "Email service is misconfigured. Please contact the administrator."
+      : "Failed to send verification email. Please try again.";
+    res.status(500).json({ error: userMsg });
     return;
   }
 
@@ -275,7 +284,10 @@ authRouter.post("/forgot-password", async (req, res) => {
     await sendOtpEmail(email, code, "reset");
   } catch (err: any) {
     console.error("[auth] Failed to send reset OTP email:", err.message);
-    res.status(500).json({ error: "Failed to send reset email. Please try again." });
+    const userMsg = err.message?.includes("authentication failed")
+      ? "Email service is misconfigured. Please contact the administrator."
+      : "Failed to send reset email. Please try again.";
+    res.status(500).json({ error: userMsg });
     return;
   }
 

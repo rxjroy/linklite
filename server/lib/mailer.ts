@@ -1,14 +1,45 @@
 import nodemailer from "nodemailer";
 import "dotenv/config";
 
+// ── Validate SMTP env vars at startup ──────────────────────────────────────
+const SMTP_HOST = process.env.SMTP_HOST || "smtp.gmail.com";
+const SMTP_PORT = parseInt(process.env.SMTP_PORT || "587");
+const SMTP_USER = process.env.SMTP_USER;
+const SMTP_PASS = process.env.SMTP_PASS;
+
+if (!SMTP_USER || !SMTP_PASS) {
+  console.error(
+    "[mailer] ⚠️  SMTP_USER or SMTP_PASS is not set in .env — OTP emails will fail!"
+  );
+}
+
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.gmail.com",
-  port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false, // true for 465, false for 587
+  host: SMTP_HOST,
+  port: SMTP_PORT,
+  secure: SMTP_PORT === 465, // true for 465, false for 587
   auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
+    user: SMTP_USER,
+    pass: SMTP_PASS,
   },
+});
+
+// Verify SMTP connection on startup (non-blocking)
+transporter.verify().then(() => {
+  console.log("[mailer] ✅ SMTP connection verified — emails are ready");
+}).catch((err: any) => {
+  if (err.code === "EAUTH") {
+    console.error(
+      "[mailer] ❌ SMTP authentication FAILED — your Gmail App Password is invalid or revoked."
+    );
+    console.error(
+      "[mailer]    → Go to https://myaccount.google.com/apppasswords to generate a new one."
+    );
+    console.error(
+      "[mailer]    → Then update SMTP_PASS in your .env file."
+    );
+  } else {
+    console.error("[mailer] ❌ SMTP connection failed:", err.message);
+  }
 });
 
 /**
@@ -92,10 +123,26 @@ export async function sendOtpEmail(
     </html>
   `;
 
-  await transporter.sendMail({
-    from: `"LinkLite" <${process.env.SMTP_USER}>`,
-    to: email,
-    subject,
-    html,
-  });
+  try {
+    await transporter.sendMail({
+      from: `"LinkLite" <${SMTP_USER}>`,
+      to: email,
+      subject,
+      html,
+    });
+  } catch (err: any) {
+    // Provide a clear, actionable error for auth failures
+    if (err.code === "EAUTH") {
+      console.error(
+        "[mailer] ❌ SMTP auth failed — Gmail App Password is invalid/revoked."
+      );
+      console.error(
+        "[mailer]    → Generate a new one at https://myaccount.google.com/apppasswords"
+      );
+      throw new Error(
+        "Email service authentication failed. Please contact the administrator."
+      );
+    }
+    throw err;
+  }
 }
