@@ -11,7 +11,7 @@ export const adminRouter = Router();
 adminRouter.use(requireAuth, requireAdmin as any);
 
 // ── GET /api/admin/stats ──────────────────────────────────────────────────────────
-adminRouter.get("/stats", async (req: AuthRequest, res: Response) => {
+adminRouter.get("/stats", async (req: any, res: any) => {
   try {
     const totalUsers = await User.countDocuments();
     const totalLinks = await Link.countDocuments();
@@ -34,7 +34,7 @@ adminRouter.get("/stats", async (req: AuthRequest, res: Response) => {
 });
 
 // ── GET /api/admin/users ────────────────────────────────────────────────────────
-adminRouter.get("/users", async (req: AuthRequest, res: Response) => {
+adminRouter.get("/users", async (req: any, res: any) => {
   try {
     // Return all users, along with their link counts
     const users = await User.aggregate([
@@ -68,7 +68,7 @@ adminRouter.get("/users", async (req: AuthRequest, res: Response) => {
 });
 
 // ── GET /api/admin/users/:id/links ──────────────────────────────────────────────
-adminRouter.get("/users/:id/links", async (req: AuthRequest, res: Response) => {
+adminRouter.get("/users/:id/links", async (req: any, res: any) => {
   try {
     const links = await Link.find({ userId: req.params.id }).sort({ createdAt: -1 });
     res.json({ links });
@@ -83,7 +83,7 @@ const StatusSchema = z.object({
   status: z.enum(["active", "suspended"]),
 });
 
-adminRouter.patch("/users/:id/status", async (req: AuthRequest, res: Response) => {
+adminRouter.patch("/users/:id/status", async (req: any, res: any) => {
   const result = StatusSchema.safeParse(req.body);
   if (!result.success) {
     return res.status(400).json({ error: result.error.issues[0].message });
@@ -114,7 +114,7 @@ const LinkStatusSchema = z.object({
   status: z.enum(["active", "disabled"]),
 });
 
-adminRouter.patch("/links/:id/status", async (req: AuthRequest, res: Response) => {
+adminRouter.patch("/links/:id/status", async (req: any, res: any) => {
   const result = LinkStatusSchema.safeParse(req.body);
   if (!result.success) {
     return res.status(400).json({ error: result.error.issues[0].message });

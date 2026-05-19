@@ -7,7 +7,7 @@ export interface AuthRequest extends Request {
   userId?: string;
 }
 
-export function requireAuth(req: Request, res: Response, next: NextFunction): void {
+export function requireAuth(req: any, res: any, next: any): void {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {

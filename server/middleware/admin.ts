@@ -2,7 +2,7 @@ import { Response, NextFunction } from "express";
 import { AuthRequest } from "./auth.js";
 import { User } from "../models/User.js";
 
-export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
+export const requireAdmin = async (req: any, res: any, next: any) => {
   try {
     const userId = req.userId;
     if (!userId) {
